@@ -14,4 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LobbyTestScreen.unity
     guid: a315489e82bb6514cb0c04fade46f5c0
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 1db19e4c8fe0a21478406e53e029c1d5, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: fc66b468b4a7313448059cff9d49cbb9, type: 2}
