@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3957266354609258790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4613381751624593857}
+  - component: {fileID: 2895565498940369892}
+  m_Layer: 0
+  m_Name: vrLaunchGameObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4613381751624593857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3957266354609258790}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7341747, y: 5.0713663, z: -3.6931}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2895565498940369892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3957266354609258790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b7640609665fa44954bbb23f7e6f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vrPlayerSpawnPoint: {fileID: 7003839882415065230, guid: cac1b188bbed1ed4bb8d061eade5ed4c, type: 3}
+  vrUISpawnPoint: {fileID: 6364878443971033778, guid: f5be2169edbefef45b210d749b4b2eb1, type: 3}
+  vrPlayer: {fileID: 6823135313338107735, guid: 598f3ad0a51762b4b84249b96e1900f8, type: 3}
+  vrUI: {fileID: 8512753961937932701, guid: df80093260021c74491d566006c738ac, type: 3}
