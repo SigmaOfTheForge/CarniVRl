@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3016310065270582867}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.4294224, y: 0.21815109, z: 0.51283646}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7673792870195107999
 MonoBehaviour:
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3685891687
+  GlobalObjectIdHash: 3873856988
   InScenePlacedSourceGlobalObjectIdHash: 3685891687
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -66,5 +66,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bbd37c5d3cb88c499cf1f2363d178df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pcPlayer: {fileID: 2049809271336680723, guid: c77773a0da67f794b9338589d0d9b954, type: 3}
+  pcPlayer: {fileID: 6078825070928508213, guid: 598f3ad0a51762b4b84249b96e1900f8, type: 3}
   mobilePlayer: {fileID: 2925425597298681814, guid: 02c8b2df01846c3458ee73c08cc0d7da, type: 3}

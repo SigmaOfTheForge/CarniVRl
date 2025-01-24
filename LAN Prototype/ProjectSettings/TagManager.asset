@@ -13,6 +13,7 @@ TagManager:
   - UIInput_Name
   - UI_Start
   - UI_Player
+  - VR_Player_Start
   layers:
   - Default
   - TransparentFX

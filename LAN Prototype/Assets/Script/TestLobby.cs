@@ -48,7 +48,7 @@ public class TestLobby : MonoBehaviour
             }
         }
 
-        findButtons();
+        
 
         
        
@@ -60,6 +60,8 @@ public class TestLobby : MonoBehaviour
             Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
         };
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+        FindButtons();
 
     }
 
@@ -121,6 +123,7 @@ public class TestLobby : MonoBehaviour
 
             Destroy(GameObject.FindGameObjectWithTag("UI_Start"));
             Destroy(GameObject.FindGameObjectWithTag("MainCamera"));
+            Destroy(GameObject.FindGameObjectWithTag("VR_Player_Start"));
         } catch (LobbyServiceException e)
         {
             Debug.LogError(e);
@@ -183,7 +186,7 @@ public class TestLobby : MonoBehaviour
             NetworkManager.Singleton.StartClient();
 
             Destroy(GameObject.FindGameObjectWithTag("UI_Start"));
-            Destroy(mainCamera);
+            Destroy(GameObject.FindGameObjectWithTag("VR_Player_Start"));
 
         }
         catch (LobbyServiceException e)
@@ -243,7 +246,7 @@ public class TestLobby : MonoBehaviour
         }
     }
 
-    private void findButtons()
+    private void FindButtons()
     {
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -265,7 +268,14 @@ public class TestLobby : MonoBehaviour
 
             listButton.onClick.AddListener(() => ListLobbies());
             createButton.onClick.AddListener(() => CreateLobby());
+
         }
+    }
+
+
+    public void SearchForButtons()
+    {
+        FindButtons();
     }
 
 

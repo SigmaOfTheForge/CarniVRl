@@ -16,8 +16,9 @@ public class VrLaunchManager : MonoBehaviour
     {
         GameObject cam = GameObject.FindGameObjectWithTag("MainCamera");
         Destroy(cam);
-        Instantiate(vrPlayer);
-        Instantiate(vrUI);
+        Instantiate(vrPlayer, vrPlayerSpawnPoint.position, Quaternion.identity);
+        Instantiate(vrUI, vrUISpawnPoint.position, Quaternion.identity);
+        GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().SearchForButtons();
         Destroy(gameObject);
     }
 
