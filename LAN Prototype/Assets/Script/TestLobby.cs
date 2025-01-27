@@ -10,6 +10,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Net;
 using Unity.Netcode.Transports.UTP;
+using UnityEngine.SceneManagement;
 using static UnityEngine.AudioSettings;
 //using UnityEditor.Experimental.GraphView;
 
@@ -81,7 +82,7 @@ public class TestLobby : MonoBehaviour
             {
                 float heartBeatTimerMax = 15f;
                 heatBeatTimer = heartBeatTimerMax;
-
+                Debug.Log("Lobby is alive");
                 await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
             }
         }
@@ -90,9 +91,10 @@ public class TestLobby : MonoBehaviour
     private async void CreateLobby()
     {
         playerNameString = "Sigma[" + Random.Range(1,99) + "]" ;
-
         try
         {
+
+
             string lobbyName = lobbyIPName;
             int maxPlayers = 4;
 
@@ -124,7 +126,11 @@ public class TestLobby : MonoBehaviour
             Destroy(GameObject.FindGameObjectWithTag("UI_Start"));
             Destroy(GameObject.FindGameObjectWithTag("MainCamera"));
             Destroy(GameObject.FindGameObjectWithTag("VR_Player_Start"));
-        } catch (LobbyServiceException e)
+
+            //GameObject.FindGameObjectWithTag("GameController").GetComponent<LevelManager>().ChangeScene("Lobby", 0);
+
+        }
+        catch (LobbyServiceException e)
         {
             Debug.LogError(e);
         }
@@ -165,7 +171,7 @@ public class TestLobby : MonoBehaviour
     private async void JoinLobby(string code)
     {
         code = code.Substring(0, 6);
-
+        //SceneManager.LoadScene("Lobby");
         try
         {
             JoinLobbyByCodeOptions joinLobbyByCodeOptions = new JoinLobbyByCodeOptions
@@ -209,6 +215,8 @@ public class TestLobby : MonoBehaviour
     //quickjoin an open lobby
     private async void QuickJoinLobby()
     {
+        //SceneManager.LoadScene("Lobby");
+
         try
         {
             joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();

@@ -14,6 +14,8 @@ TagManager:
   - UI_Start
   - UI_Player
   - VR_Player_Start
+  - VR_Player_Gameplay
+  - VR_Spawn
   layers:
   - Default
   - TransparentFX
