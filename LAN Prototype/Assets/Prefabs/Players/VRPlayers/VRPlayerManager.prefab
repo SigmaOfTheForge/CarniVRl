@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrPlayerType:
-  - {fileID: 6823135313338107735, guid: 598f3ad0a51762b4b84249b96e1900f8, type: 3}
-  - {fileID: 8428497596286585879, guid: a001464121f204f48ba956ae03d0665f, type: 3}
+  - {fileID: 940189340507912645, guid: 598f3ad0a51762b4b84249b96e1900f8, type: 3}
+  - {fileID: 2880199327896055806, guid: a001464121f204f48ba956ae03d0665f, type: 3}
+  currentPlayer: {fileID: 0}
 --- !u!114 &6317601049791043763
 MonoBehaviour:
   m_ObjectHideFlags: 0

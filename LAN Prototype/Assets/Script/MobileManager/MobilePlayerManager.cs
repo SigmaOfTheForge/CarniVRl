@@ -4,18 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
-
-public class VRPlayerManager : MonoBehaviour
+public class MobilePlayerManager : MonoBehaviour
 {
-
-
-
     [SerializeField]
-    private NetworkObject[] vrPlayerType;
+    private NetworkObject[] mobPlayerType;
     [SerializeField]
     private NetworkObject currentPlayer;
 
-    private Transform spawnPoint;
+    private int playerNumber;
+
+    private GameObject[] spawnPoints;
 
     private ulong clientID;
 
@@ -31,29 +29,34 @@ public class VRPlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(currentPlayer == null) 
+        if (currentPlayer == null)
         {
-            spawnPoint = GameObject.FindGameObjectWithTag("VR_Spawn").transform;
-            currentPlayer = Instantiate(vrPlayerType[0], gameObject.transform);
+            spawnPoints = GameObject.FindGameObjectsWithTag("Mob_Spawn");
+            currentPlayer = Instantiate(mobPlayerType[0], gameObject.transform);
             SpawnOnNetworkServerRpc(currentPlayer, clientID);
-            currentPlayer.transform.position = spawnPoint.transform.position;
-            currentPlayer.transform.rotation = spawnPoint.transform.rotation;
-            
+            currentPlayer.transform.position = spawnPoints[playerNumber].transform.position;
+            currentPlayer.transform.rotation = spawnPoints[playerNumber].transform.rotation;
+
         }
     }
 
     private void OnLoadScene(Scene scene, LoadSceneMode mode)
     {
         int levelType = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GetLevelType();
-        if(currentPlayer != null)
+        if (currentPlayer != null)
         {
             currentPlayer.Despawn();
         }
-        spawnPoint = GameObject.FindGameObjectWithTag("VR_Spawn").transform;
-        currentPlayer = Instantiate(vrPlayerType[levelType], gameObject.transform);
+        spawnPoints = GameObject.FindGameObjectsWithTag("Mob_Spawn");
+        currentPlayer = Instantiate(mobPlayerType[levelType], gameObject.transform);
         SpawnOnNetworkServerRpc(currentPlayer, clientID);
-        currentPlayer.transform.position = spawnPoint.transform.position;
-        currentPlayer.transform.rotation = spawnPoint.transform.rotation;
+        currentPlayer.transform.position = spawnPoints[playerNumber].transform.position;
+        currentPlayer.transform.rotation = spawnPoints[playerNumber].transform.rotation;
+    }
+
+    public void SetPlayerNumber(int playerN)
+    {
+        playerNumber = playerN;
     }
 
     public void SetClient(ulong client)
@@ -67,6 +70,4 @@ public class VRPlayerManager : MonoBehaviour
 
         objToSpawn.SpawnWithOwnership(ownerID);
     }
-
-
 }

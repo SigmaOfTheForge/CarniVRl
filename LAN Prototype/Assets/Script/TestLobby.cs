@@ -29,7 +29,7 @@ public class TestLobby : MonoBehaviour
     private Lobby hostLobby, joinedLobby;
     private float heatBeatTimer;
 
-
+    private bool isHosting = false;
 
     // Start is called before the first frame update
     private async void Start()
@@ -81,8 +81,7 @@ public class TestLobby : MonoBehaviour
             if(heatBeatTimer < 0)
             {
                 float heartBeatTimerMax = 15f;
-                heatBeatTimer = heartBeatTimerMax;
-                Debug.Log("Lobby is alive");
+                heatBeatTimer = heartBeatTimerMax;         
                 await LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
             }
         }
@@ -90,6 +89,9 @@ public class TestLobby : MonoBehaviour
 
     private async void CreateLobby()
     {
+        //prevents double-clicks of lobby button and prevents 2 lobbies from the same computer appearing (i hope)
+        if (isHosting) return;
+
         playerNameString = "Sigma[" + Random.Range(1,99) + "]" ;
         try
         {
@@ -122,6 +124,8 @@ public class TestLobby : MonoBehaviour
             Debug.Log("Created Lobby: " + lobby.Name + ", " + lobby.MaxPlayers + ", Password is: " +  lobby.LobbyCode);
 
             NetworkManager.Singleton.StartHost();
+
+            isHosting = true;
 
             Destroy(GameObject.FindGameObjectWithTag("UI_Start"));
             Destroy(GameObject.FindGameObjectWithTag("MainCamera"));

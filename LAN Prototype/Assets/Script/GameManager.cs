@@ -1,22 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
-    [SerializeField]
-    private GameObject mobileUI, pcUI;
 
+    //[SerializeField]
+    //private string sceneName;
+
+    [SerializeField]
+    private int levelType;
+
+    
     private void Awake()
     {
-        if(Application.platform == RuntimePlatform.Android)
+        DontDestroyOnLoad(this);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            Instantiate(mobileUI);
+            ChangeSceneServerRpc("SceneTransitionTest", 1);
         }
-        else if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+        if(Input.GetKeyDown(KeyCode.K))
         {
-            Instantiate(pcUI);
+            ChangeSceneServerRpc("Lobby", 0);
         }
     }
+
+
+
+
+    public void ChangeScene(string sceneName, int type)
+    {
+        ChangeSceneServerRpc(sceneName, type);
+    }
+
+
+    public int GetLevelType()
+    {
+        return levelType;
+    }
+
+   
+
+
+    [ServerRpc]
+    void ChangeSceneServerRpc(string sceneName, int type)
+    {
+        var status = NetworkManager.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        if (status != SceneEventProgressStatus.Started)
+        {
+            Debug.LogWarning("Failed to load " + sceneName + ", with a " + nameof(SceneEventProgressStatus) + ": " + status);
+
+        }
+        levelType = type;
+    }
+
+
 
 }

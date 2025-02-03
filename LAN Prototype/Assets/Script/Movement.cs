@@ -23,6 +23,7 @@ public class Movement : NetworkBehaviour
     private float
         horizontalInput,
         verticalInput;
+        
 
     private PlayerInput plInput;
 
@@ -66,9 +67,10 @@ public class Movement : NetworkBehaviour
         }
         else
         {
-            horizontalInput = Input.GetAxis("Horizontal");
-            verticalInput = Input.GetAxis("Vertical");
+            horizontalInput = 0;
+            verticalInput = 0;
         }
+
 
         Vector3 pos = transform.position;
         transform.position = new Vector3(pos.x + (horizontalInput * playerSpeed * Time.deltaTime), pos.y, pos.z + (verticalInput * playerSpeed * Time.deltaTime));

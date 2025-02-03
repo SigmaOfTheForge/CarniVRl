@@ -16,6 +16,9 @@ TagManager:
   - VR_Player_Start
   - VR_Player_Gameplay
   - VR_Spawn
+  - VR_Player_Manager
+  - Mob_Spawn
+  - Mob_Player_Manager
   layers:
   - Default
   - TransparentFX

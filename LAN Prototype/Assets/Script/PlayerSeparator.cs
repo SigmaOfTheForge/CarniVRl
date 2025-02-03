@@ -52,12 +52,19 @@ public class PlayerSeparator : NetworkBehaviour
             case 0:
                 player = Instantiate(mobilePlayer);
                 player.SpawnWithOwnership(clientID);
+                player.GetComponent<MobilePlayerManager>().SetClient(clientID);
+
+                int mobNo = GameObject.FindGameObjectsWithTag("Mob_Player_Manager").Length;
+                player.GetComponent<MobilePlayerManager>().SetPlayerNumber(mobNo);
+
                 break;
             //Spawn PC/VR player
             case 1:
                 Debug.Log(clientID);
                 player = Instantiate(pcPlayer);
                 player.SpawnWithOwnership(clientID);
+                player.GetComponent<VRPlayerManager>().SetClient(clientID);
+
                 break;
         }
         //destroy PlayerSeparator as is no longer needed and destroy on the network
