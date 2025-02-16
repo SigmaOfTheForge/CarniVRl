@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3957266354609258790}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.34, y: 0.54, z: -3.6931}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46,5 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vrPlayerSpawnPoint: {fileID: 3689006627194334084, guid: a001464121f204f48ba956ae03d0665f, type: 3}
   vrUISpawnPoint: {fileID: 6364878443971033778, guid: f5be2169edbefef45b210d749b4b2eb1, type: 3}
-  vrPlayer: {fileID: 6823135313338107735, guid: 598f3ad0a51762b4b84249b96e1900f8, type: 3}
+  vrPlayer: {fileID: 4046488646356475578, guid: 724c5cf2fde0a8e49a51018fc794389f, type: 3}
   vrUI: {fileID: 8512753961937932701, guid: df80093260021c74491d566006c738ac, type: 3}

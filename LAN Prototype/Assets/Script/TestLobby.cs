@@ -19,6 +19,9 @@ public class TestLobby : MonoBehaviour
     [SerializeField]
     private GameObject mainCamera;
 
+    [SerializeField]
+    private NetworkObject GameManager;
+
     //[SerializeField]
     private TextMeshProUGUI lobbyCodeText, playerNameText;
 
@@ -89,12 +92,14 @@ public class TestLobby : MonoBehaviour
 
     private async void CreateLobby()
     {
-        //prevents double-clicks of lobby button and prevents 2 lobbies from the same computer appearing (i hope)
+        //prevents double-clicks of lobby button and prevents 2 lobbies from the same computer appearing 
         if (isHosting) return;
 
         playerNameString = "Sigma[" + Random.Range(1,99) + "]" ;
         try
         {
+            isHosting = true;
+
 
 
             string lobbyName = lobbyIPName;
@@ -125,11 +130,17 @@ public class TestLobby : MonoBehaviour
 
             NetworkManager.Singleton.StartHost();
 
-            isHosting = true;
 
             Destroy(GameObject.FindGameObjectWithTag("UI_Start"));
             Destroy(GameObject.FindGameObjectWithTag("MainCamera"));
             Destroy(GameObject.FindGameObjectWithTag("VR_Player_Start"));
+
+            if (!GameObject.FindGameObjectWithTag("GameController"))
+            {
+                NetworkObject manager = Instantiate(GameManager);
+                DontDestroyOnLoad(manager);
+                manager.Spawn(false);
+            }
 
             //GameObject.FindGameObjectWithTag("GameController").GetComponent<LevelManager>().ChangeScene("Lobby", 0);
 
@@ -137,6 +148,8 @@ public class TestLobby : MonoBehaviour
         catch (LobbyServiceException e)
         {
             Debug.LogError(e);
+            isHosting = false;
+
         }
 
     }

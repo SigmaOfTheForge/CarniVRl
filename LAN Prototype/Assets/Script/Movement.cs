@@ -31,6 +31,8 @@ public class Movement : NetworkBehaviour
     {
         plInput = GetComponent<PlayerInput>();
 
+        Debug.Log("Owner of MobilePlayer Movement is: " + OwnerClientId);
+
         if (IsOwner)
         {
             if (GameObject.FindGameObjectWithTag("UI_Player") == null)
@@ -39,9 +41,13 @@ public class Movement : NetworkBehaviour
 
             }
 
+           
+
+
             if (cameraObject == null)
             {
                 cameraObject = Instantiate(cameraPrefab, cameraSpawnLoc);
+               
             }
         }
 
@@ -50,7 +56,21 @@ public class Movement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        CameraCheck();
         Move();
+    }
+
+    void CameraCheck()
+    {
+        if(!IsOwner) return;
+
+        Camera cam = Camera.main;
+        if (cameraObject != cam)
+        {
+            cam.tag = "Untagged";
+            Destroy(cameraObject.gameObject);
+            cameraObject = Instantiate(cameraPrefab, cameraSpawnLoc);
+        }
     }
 
 

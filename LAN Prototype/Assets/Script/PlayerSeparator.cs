@@ -12,60 +12,72 @@ public class PlayerSeparator : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
         if (!IsOwner) return;
 
         ulong clientID = NetworkManager.Singleton.LocalClientId;
+        Debug.Log("[PS]LocalClient is: " + clientID);
 
-        if(Application.platform == RuntimePlatform.Android) 
+        
+         if (Application.platform == RuntimePlatform.Android)
         {
 
-            SpawnOnNetworkServerRpc( 0, clientID);
+            SpawnOnNetworkServerRpc(0, clientID);
             //player.GetComponent<NetworkObject>().Spawn();
 
 
-            Destroy(this);
+            //Destroy(this);
         }
         else if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
-            Debug.Log(clientID);
+            //Debug.Log(clientID);
             SpawnOnNetworkServerRpc(1, clientID);
             //player.GetComponent<NetworkObject>().Spawn();
 
 
-            Destroy(this);
+            //Destroy(this);
         }
 
     }
 
     //Spawn the player and spawn them on the network
     [ServerRpc]
-    void SpawnOnNetworkServerRpc(int playerType, ulong playerID)
+    void SpawnOnNetworkServerRpc(int playerType, ulong clientID)
     {
         NetworkObject player;
 
-        ulong clientID = playerID;
+       
 
+        Debug.Log("Client in PS-RPC is: " + clientID);
 
         switch (playerType)
         {
             //Spawn Mobile player
             case 0:
                 player = Instantiate(mobilePlayer);
-                player.SpawnWithOwnership(clientID);
-                player.GetComponent<MobilePlayerManager>().SetClient(clientID);
-
-                int mobNo = GameObject.FindGameObjectsWithTag("Mob_Player_Manager").Length;
-                player.GetComponent<MobilePlayerManager>().SetPlayerNumber(mobNo);
-
+                DontDestroyOnLoad(player);
+                player.SpawnWithOwnership(clientID, false);
                 break;
+
             //Spawn PC/VR player
             case 1:
-                Debug.Log(clientID);
+                
                 player = Instantiate(pcPlayer);
-                player.SpawnWithOwnership(clientID);
-                player.GetComponent<VRPlayerManager>().SetClient(clientID);
-
+                DontDestroyOnLoad(player);
+                player.SpawnWithOwnership( clientID, false);
+              
                 break;
+
+           
+
+
         }
         //destroy PlayerSeparator as is no longer needed and destroy on the network
         this.GetComponent<NetworkObject>().Despawn();

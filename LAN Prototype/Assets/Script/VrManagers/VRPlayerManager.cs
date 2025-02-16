@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using Unity.XR.CoreUtils;
+using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 
-public class VRPlayerManager : MonoBehaviour
+public class VRPlayerManager : NetworkBehaviour
 {
 
+  
 
 
     [SerializeField]
     private NetworkObject[] vrPlayerType;
+
+    [SerializeField]
+    private GameObject[] vrPlayerHead;
+
     [SerializeField]
     private NetworkObject currentPlayer;
 
@@ -19,11 +26,15 @@ public class VRPlayerManager : MonoBehaviour
 
     private ulong clientID;
 
+    //public event NetworkSceneManager.OnLoadCompleteDelegateHandler sceneLoaded;
+
     private void Awake()
     {
-        //clear any prior callback and then create a new one
-        SceneManager.sceneLoaded -= OnLoadScene;
-        SceneManager.sceneLoaded += OnLoadScene;
+
+
+
+        //Delegate to OnLoadComplete, called when all clients have finished loading a scene
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadScene;
 
     }
 
@@ -31,27 +42,49 @@ public class VRPlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(currentPlayer == null) 
+         if (!IsOwner) return;
+
+
+
+         //if there is no player in the scene, spawns a new one 
+        if (currentPlayer == null)
         {
+            //finds spawnpoints
             spawnPoint = GameObject.FindGameObjectWithTag("VR_Spawn").transform;
+            //spawns player
             currentPlayer = Instantiate(vrPlayerType[0], gameObject.transform);
-            SpawnOnNetworkServerRpc(currentPlayer, clientID);
+            //spawn the playe on the network
+            SpawnOnNetworkServerRpc(clientID);
+            //set player position
             currentPlayer.transform.position = spawnPoint.transform.position;
             currentPlayer.transform.rotation = spawnPoint.transform.rotation;
-            
+
         }
     }
 
-    private void OnLoadScene(Scene scene, LoadSceneMode mode)
+
+
+    //When the client has finished loading the scene
+    private void OnLoadScene(ulong clientID, string sceneName, LoadSceneMode loadSceneMode)
     {
+        if (!IsOwner) return;
+
+
+
         int levelType = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GetLevelType();
+        //if there is a player, destroy and despawn them
         if(currentPlayer != null)
         {
-            currentPlayer.Despawn();
+            DespawnOnNetworkServerRpc();
         }
-        spawnPoint = GameObject.FindGameObjectWithTag("VR_Spawn").transform;
+
+        //finds spawnpoint and spawns the player
+        spawnPoint = GameObject.FindGameObjectWithTag("VR_Spawn").transform;   
         currentPlayer = Instantiate(vrPlayerType[levelType], gameObject.transform);
-        SpawnOnNetworkServerRpc(currentPlayer, clientID);
+        SpawnOnNetworkServerRpc( clientID);
+
+
+        //moves player to the spawnpoint
         currentPlayer.transform.position = spawnPoint.transform.position;
         currentPlayer.transform.rotation = spawnPoint.transform.rotation;
     }
@@ -59,14 +92,25 @@ public class VRPlayerManager : MonoBehaviour
     public void SetClient(ulong client)
     {
         clientID = client;
+        Debug.Log(client);
     }
 
+    //spawns the correct player type in the level and on the network
     [ServerRpc]
-    void SpawnOnNetworkServerRpc(NetworkObject objToSpawn, ulong ownerID)
+    void SpawnOnNetworkServerRpc( ulong ownerID, ServerRpcParams serverRpcParams = default)
     {
 
-        objToSpawn.SpawnWithOwnership(ownerID);
+
+       // if (!IsOwner) return;
+
+        currentPlayer.SpawnWithOwnership(ownerID, true);
     }
 
+    //Despawns and destroys the currentPlayer
+    [ServerRpc]
+    void DespawnOnNetworkServerRpc()
+    {
+        currentPlayer.Despawn();
+    }
 
 }

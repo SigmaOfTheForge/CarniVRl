@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &876040334263627630
+--- !u!1 &7108071681162402534
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 572961570307464403}
-  - component: {fileID: 6317601049791043763}
-  - component: {fileID: 8851508816461625780}
+  - component: {fileID: 1058172480979680140}
+  - component: {fileID: 1337208765964100884}
+  - component: {fileID: 6385250602140407891}
   m_Layer: 0
-  m_Name: VRPlayerManager
-  m_TagString: Untagged
+  m_Name: GameManager
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &572961570307464403
+--- !u!4 &1058172480979680140
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 876040334263627630}
+  m_GameObject: {fileID: 7108071681162402534}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,19 +33,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6317601049791043763
+--- !u!114 &1337208765964100884
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 876040334263627630}
+  m_GameObject: {fileID: 7108071681162402534}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 414335
+  GlobalObjectIdHash: 2178947437
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -54,22 +54,16 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &8851508816461625780
+--- !u!114 &6385250602140407891
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 876040334263627630}
+  m_GameObject: {fileID: 7108071681162402534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80db267a2bafef8438a1c595ec44ac42, type: 3}
+  m_Script: {fileID: 11500000, guid: 77e80b2d09d36984fb98346806bdeac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vrPlayerType:
-  - {fileID: 940189340507912645, guid: 598f3ad0a51762b4b84249b96e1900f8, type: 3}
-  - {fileID: 2880199327896055806, guid: a001464121f204f48ba956ae03d0665f, type: 3}
-  vrPlayerHead:
-  - {fileID: 8199276320477238834, guid: bfeacf8f512ce234c90fb3ff66e96b58, type: 3}
-  - {fileID: 8123236587272580451, guid: 52b917c473f7159478d750be8e1e25cf, type: 3}
-  currentPlayer: {fileID: 0}
+  levelType: 0

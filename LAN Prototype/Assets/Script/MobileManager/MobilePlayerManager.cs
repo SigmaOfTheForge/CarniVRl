@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using System.Globalization;
 
-public class MobilePlayerManager : MonoBehaviour
+public class MobilePlayerManager : NetworkBehaviour
 {
     [SerializeField]
     private NetworkObject[] mobPlayerType;
     [SerializeField]
-    private NetworkObject currentPlayer;
+    private NetworkObject currentMobPlayer;
 
     private int playerNumber;
 
@@ -17,43 +18,77 @@ public class MobilePlayerManager : MonoBehaviour
 
     private ulong clientID;
 
+
+    
+    //Takes place before OnNetworkSpawn
     private void Awake()
     {
-        //clear any prior callback and then create a new one
-        SceneManager.sceneLoaded -= OnLoadScene;
-        SceneManager.sceneLoaded += OnLoadScene;
+        
+        //Delegate attached to NSM, when *all clients* have loaded it triggers OnLoadScene
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadScene;
+
 
     }
 
-
-    // Start is called before the first frame update
-    void Start()
+    //Takes place after manager spawns on the network
+    private void Start()
     {
-        if (currentPlayer == null)
+        if (!IsOwner) return;
+
+        
+
+        clientID = OwnerClientId;
+
+        //if there is no player in the scene, spawn a player on the network 
+        if (currentMobPlayer == null)
         {
-            spawnPoints = GameObject.FindGameObjectsWithTag("Mob_Spawn");
-            currentPlayer = Instantiate(mobPlayerType[0], gameObject.transform);
-            SpawnOnNetworkServerRpc(currentPlayer, clientID);
-            currentPlayer.transform.position = spawnPoints[playerNumber].transform.position;
-            currentPlayer.transform.rotation = spawnPoints[playerNumber].transform.rotation;
+            
+            int levelType = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GetLevelType();
+
+            // Gets all spawnPoints
+            GameObject[] tempArray = GameObject.FindGameObjectsWithTag("Mob_Spawn");
+            System.Array.Resize(ref spawnPoints, tempArray.Length);
+            spawnPoints = tempArray;
+
+            //instantiates and spawns the player
+            SpawnOnNetworkMobileServerRpc(levelType, clientID);
+
+
 
         }
     }
 
-    private void OnLoadScene(Scene scene, LoadSceneMode mode)
+
+    //Spawns the level-specific player when all clients have finished loading the level
+    private void OnLoadScene(ulong clientID, string sceneName, LoadSceneMode loadSceneMode)
     {
+        if (!IsOwner) return;
+
+
+        
+
+
+
         int levelType = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GetLevelType();
-        if (currentPlayer != null)
-        {
-            currentPlayer.Despawn();
-        }
-        spawnPoints = GameObject.FindGameObjectsWithTag("Mob_Spawn");
-        currentPlayer = Instantiate(mobPlayerType[levelType], gameObject.transform);
-        SpawnOnNetworkServerRpc(currentPlayer, clientID);
-        currentPlayer.transform.position = spawnPoints[playerNumber].transform.position;
-        currentPlayer.transform.rotation = spawnPoints[playerNumber].transform.rotation;
-    }
 
+        //despawns player if one is still referenced
+        if (currentMobPlayer != null)
+        {
+            DespawnOnNetworkMobileServerRpc();
+        }
+
+        //finds all spawnpoints in the level
+        GameObject[] tempArray  = GameObject.FindGameObjectsWithTag("Mob_Spawn");
+        System.Array.Resize(ref spawnPoints, tempArray.Length);
+        spawnPoints = tempArray;
+
+        //instantiates and spawns the player
+        SpawnOnNetworkMobileServerRpc(levelType, clientID);
+
+      
+
+    }
+    //when the player is spawned by the separator their player number is set
     public void SetPlayerNumber(int playerN)
     {
         playerNumber = playerN;
@@ -62,12 +97,53 @@ public class MobilePlayerManager : MonoBehaviour
     public void SetClient(ulong client)
     {
         clientID = client;
+        Debug.Log(client);
+
     }
 
+    //Instantiates a specified player type and spawns them on the network owned by this GameObject
     [ServerRpc]
-    void SpawnOnNetworkServerRpc(NetworkObject objToSpawn, ulong ownerID)
+    void SpawnOnNetworkMobileServerRpc(int playerType, ulong ownerID)
     {
+       
+        Debug.Log("Player type to spawn is: " + playerType);
+        
 
-        objToSpawn.SpawnWithOwnership(ownerID);
+        NetworkObject player = Instantiate(mobPlayerType[playerType]);
+
+        Debug.Log("player is: " + player );
+
+        player.SpawnWithOwnership(ownerID, true);
+       
+
+        currentMobPlayer = player;
+
+        SetPlayerClientRpc(player);
+
+         
     }
+
+    //Recieves a reference of the spawned player from the server and sets them as the current player
+    [ClientRpc]
+    void SetPlayerClientRpc(NetworkObjectReference player)
+    {
+        if(!IsOwner) return;
+        bool gotPlayer = player.TryGet(out currentMobPlayer);
+
+        //sets position of the player once it recieves the reference
+        if(spawnPoints.Length > 0)
+        {
+            currentMobPlayer.transform.position = spawnPoints[playerNumber].transform.position;
+            currentMobPlayer.transform.rotation = spawnPoints[playerNumber].transform.rotation;
+        }
+
+    }
+
+    //Despawns the player on the network
+    [ServerRpc]
+    void DespawnOnNetworkMobileServerRpc()
+    {
+        currentMobPlayer.Despawn();
+    }
+
 }

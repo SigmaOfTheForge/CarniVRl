@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
-public class VrCameraManager : MonoBehaviour
+public class VrCameraManager : NetworkBehaviour 
 {
     [SerializeField]
     private GameObject camToSpawn;
@@ -13,8 +14,16 @@ public class VrCameraManager : MonoBehaviour
 
     private void Awake()
     {
-        camSpawn = Instantiate(camToSpawn, gameObject.transform);
-        this.GetComponentInParent<XROrigin>().SetCamera(camSpawn.GetComponent<Camera>());
-        this.GetComponentInParent<DynamicMoveProvider>().forwardSource = camSpawn.transform;
+       
+    }
+
+    private void Start()
+    {
+        
+
+
+        //camSpawn = Instantiate(camToSpawn, gameObject.transform);
+        //this.GetComponentInParent<XROrigin>().SetCamera(camSpawn.GetComponent<Camera>());
+        //this.GetComponentInParent<DynamicMoveProvider>().forwardSource = camSpawn.transform;
     }
 }
