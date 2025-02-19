@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class BowlingBallSpawnScript : MonoBehaviour
+public class BowlingBallSpawnScript : NetworkBehaviour
 {
-    [SerializeField] private GameObject bowlingBall;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        Instantiate(bowlingBall, new Vector3(Random.Range(-1.5f, 1.5f), transform.position.y, transform.position.z), Quaternion.identity);
-        Debug.Log(transform.position.y);
-    }
+    NetworkObject bowlingBall;
 
     // Update is called once per frame
     void Update()
     {
-        
+        NetworkObject bowlingBall = BallPit.SharedInstance.GetPooledObject();
+
+        if (bowlingBall != null)
+        {
+            Debug.Log("Bowling Ball set to active");
+            bowlingBall.transform.position = this.transform.position;
+            bowlingBall.transform.rotation = this.transform.rotation;
+            bowlingBall.gameObject.SetActive(true);
+        }
     }
 }

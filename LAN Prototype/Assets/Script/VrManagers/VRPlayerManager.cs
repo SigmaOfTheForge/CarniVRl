@@ -89,6 +89,13 @@ public class VRPlayerManager : NetworkBehaviour
         currentPlayer.transform.rotation = spawnPoint.transform.rotation;
     }
 
+    public Transform GetCurrentPlayerTransform()
+    {
+        if (!currentPlayer) Debug.Log("No player assigned at time of call");
+
+        return currentPlayer.transform;
+    }
+
     public void SetClient(ulong client)
     {
         clientID = client;
