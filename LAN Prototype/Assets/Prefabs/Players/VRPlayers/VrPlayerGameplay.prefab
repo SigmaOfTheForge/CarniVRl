@@ -518,13 +518,13 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.005
+    widthMultiplier: 0.0127
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 1.0385132
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1676,7 +1676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1211478275
+  GlobalObjectIdHash: 3788629226
   InScenePlacedSourceGlobalObjectIdHash: 3788629226
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1

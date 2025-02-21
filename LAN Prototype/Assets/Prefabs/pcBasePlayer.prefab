@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2894761923
+  GlobalObjectIdHash: 1810098600
   InScenePlacedSourceGlobalObjectIdHash: 1941718089
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 8620388927363088617, guid: 128df9f1d0015b3459a6d62049bf821e, type: 3}
   cameraSpawnLoc: {fileID: 1874097485294911959}
-  playerUI: {fileID: 241434870861398441, guid: 31e74507ca91b604994607d92faaf3f2, type: 3}
+  playerUI: {fileID: 3450603946836285303, guid: 0b820b2f765b20042b688ba4033017e0, type: 3}
   playerSpeed: 5
   rotateSpeed: 0
 --- !u!114 &8400191093971017972
@@ -223,7 +223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f015e454eb12c2a4ba7b8ccea929e6a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 0
 --- !u!114 &3384420627458946058
 MonoBehaviour:
   m_ObjectHideFlags: 0

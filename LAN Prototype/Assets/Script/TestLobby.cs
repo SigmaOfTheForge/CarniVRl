@@ -142,13 +142,17 @@ public class TestLobby : MonoBehaviour
                 manager.Spawn(false);
             }
 
-            //GameObject.FindGameObjectWithTag("GameController").GetComponent<LevelManager>().ChangeScene("Lobby", 0);
+          
 
         }
         catch (LobbyServiceException e)
         {
             Debug.LogError(e);
             isHosting = false;
+
+        }
+        if (GameObject.FindGameObjectWithTag("GameController"))
+        {
 
         }
 
@@ -210,6 +214,8 @@ public class TestLobby : MonoBehaviour
 
             Destroy(GameObject.FindGameObjectWithTag("UI_Start"));
             Destroy(GameObject.FindGameObjectWithTag("VR_Player_Start"));
+
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ChangeScene("Lobby", 1);
 
         }
         catch (LobbyServiceException e)
