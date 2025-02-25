@@ -915,7 +915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1576860934
+  GlobalObjectIdHash: 338018668
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1829,7 +1829,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  handAnimator: {fileID: 0}
+  handAnimator: {fileID: 6809921044119115318}
 --- !u!114 &6243405424693973444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1843,7 +1843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
-  m_Animator: {fileID: 0}
+  m_Animator: {fileID: 6809921044119115318}
 --- !u!114 &3602488108288055900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1878,6 +1878,11 @@ MonoBehaviour:
 --- !u!4 &603939538235067468 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dfd53a9da009f3445a557e9006cad3e1, type: 3}
+  m_PrefabInstance: {fileID: 1147053076393094055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6809921044119115318 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: dfd53a9da009f3445a557e9006cad3e1, type: 3}
   m_PrefabInstance: {fileID: 1147053076393094055}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4497459952470258300
@@ -2160,6 +2165,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2660966574324704356}
   m_SourcePrefab: {fileID: 100100000, guid: 93407c3ad5dd1384ba276a8025c328f2, type: 3}
+--- !u!95 &3059517019898281787 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 93407c3ad5dd1384ba276a8025c328f2, type: 3}
+  m_PrefabInstance: {fileID: 8871813282626585258}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8637458770680741883 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 93407c3ad5dd1384ba276a8025c328f2, type: 3}
@@ -2209,7 +2219,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  handAnimator: {fileID: 0}
+  handAnimator: {fileID: 3059517019898281787}
 --- !u!114 &8492310630811792050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2254,7 +2264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
-  m_Animator: {fileID: 0}
+  m_Animator: {fileID: 3059517019898281787}
 --- !u!4 &8977286291539469633 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 93407c3ad5dd1384ba276a8025c328f2, type: 3}
