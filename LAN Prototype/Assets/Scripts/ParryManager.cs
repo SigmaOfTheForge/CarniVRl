@@ -58,7 +58,7 @@ public class ParryManager : NetworkBehaviour //Control whether parry or just blo
             Debug.Log("Parried");
             ball.transform.LookAt(cannon);
             brb.useGravity = false;
-            brb.velocity = ball.transform.forward * 50; //make force depend on distance as well //naw that was a bad idea
+            brb.velocity = ball.transform.forward * 50; 
         }
         else if (canBlock)
         {

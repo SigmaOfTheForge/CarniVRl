@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class BallPit : NetworkBehaviour
+public class BallPit : NetworkBehaviour //MonoBehaviour -> NetworkBehaviour so that the script can have access to the network stuff
 {
     public static BallPit SharedInstance;
-    public List<NetworkObject> pooledObjects;
+    public List<NetworkObject> pooledObjects; //GameObject -> NetworkObject for the same reason ^
     public NetworkObject objectToPool;
     public int amountToPool;
     
