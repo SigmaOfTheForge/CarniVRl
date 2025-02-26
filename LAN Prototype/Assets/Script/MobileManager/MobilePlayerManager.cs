@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using System.Globalization;
+using UnityEngine.UI;
+using Unity.VisualScripting;
+using Unity.Services.Core;
+using Unity.Services.Authentication;
 
 public class MobilePlayerManager : NetworkBehaviour
 {
@@ -11,13 +15,18 @@ public class MobilePlayerManager : NetworkBehaviour
     private NetworkObject[] mobPlayerType;
     [SerializeField]
     private NetworkObject currentMobPlayer;
+    [SerializeField]
+    private GameObject menuUI, clientDisconnectManager;
 
     private int playerNumber;
+
+    private GameObject currentMenu;
 
     private GameObject[] spawnPoints;
 
     private ulong clientID;
 
+    private Button disconnectButton;
 
     
     //Takes place before OnNetworkSpawn
@@ -26,7 +35,8 @@ public class MobilePlayerManager : NetworkBehaviour
         
         //Delegate attached to NSM, when *all clients* have loaded it triggers OnLoadScene
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadScene;
-
+        
+       
 
     }
 
@@ -56,6 +66,16 @@ public class MobilePlayerManager : NetworkBehaviour
 
 
         }
+        if (!currentMenu)
+        {
+            currentMenu = Instantiate(menuUI, this.transform);
+            disconnectButton = currentMenu.transform.Find("Panel").Find("disconnectButton").GetComponent<Button>();
+            disconnectButton.onClick.AddListener(() => DisconButtonPressed());
+        }
+
+        Instantiate(clientDisconnectManager);
+        
+
     }
 
 
@@ -100,6 +120,26 @@ public class MobilePlayerManager : NetworkBehaviour
         Debug.Log(client);
 
     }
+
+    private void DisconButtonPressed()
+    {
+        DespawnOnNetworkMobileServerRpc();
+        DisconnectPlayerServerRpc(OwnerClientId);
+    }
+
+
+
+
+    [ServerRpc]
+    void DisconnectPlayerServerRpc(ulong clientID)
+    {
+
+        NetworkManager.Singleton.DisconnectClient(clientID);
+        this.NetworkObject.Despawn();
+
+    }
+
+
 
     //Instantiates a specified player type and spawns them on the network owned by this GameObject
     [ServerRpc]
