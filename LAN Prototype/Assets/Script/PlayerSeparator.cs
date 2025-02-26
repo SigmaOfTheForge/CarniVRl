@@ -62,7 +62,9 @@ public class PlayerSeparator : NetworkBehaviour
             //Spawn Mobile player
             case 0:
                 player = Instantiate(mobilePlayer);
+                //DDOLManager.instance.AddDDOLObject(player.gameObject);
                 DontDestroyOnLoad(player);
+
                 player.SpawnWithOwnership(clientID, false);
                 break;
 
@@ -70,6 +72,7 @@ public class PlayerSeparator : NetworkBehaviour
             case 1:
                 
                 player = Instantiate(pcPlayer);
+                //DDOLManager.instance.AddDDOLObject(player.gameObject);
                 DontDestroyOnLoad(player);
                 player.SpawnWithOwnership( clientID, false);
               

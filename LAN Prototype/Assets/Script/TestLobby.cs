@@ -129,7 +129,7 @@ public class TestLobby : MonoBehaviour
             Debug.Log("Created Lobby: " + lobby.Name + ", " + lobby.MaxPlayers + ", Password is: " +  lobby.LobbyCode);
 
             NetworkManager.Singleton.StartHost();
-
+            
 
             Destroy(GameObject.FindGameObjectWithTag("UI_Start"));
             Destroy(GameObject.FindGameObjectWithTag("MainCamera"));
@@ -139,6 +139,8 @@ public class TestLobby : MonoBehaviour
             {
                 NetworkObject manager = Instantiate(GameManager);
                 DontDestroyOnLoad(manager);
+                
+                
                 manager.Spawn(false);
             }
 

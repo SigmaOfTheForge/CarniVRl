@@ -19,6 +19,8 @@ TagManager:
   - VR_Player_Manager
   - Mob_Spawn
   - Mob_Player_Manager
+  - Ball
+  - NetworkManager
   layers:
   - Default
   - TransparentFX
