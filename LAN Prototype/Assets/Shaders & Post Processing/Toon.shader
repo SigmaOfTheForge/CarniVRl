@@ -45,6 +45,8 @@
 				float4 vertex : POSITION;				
 				float4 uv : TEXCOORD0;
 				float3 normal : NORMAL;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct v2f
@@ -55,6 +57,8 @@
 				float3 viewDir : TEXCOORD1;
 
 				SHADOW_COORDS(2)
+
+				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			sampler2D _MainTex;
@@ -63,6 +67,11 @@
 			v2f vert (appdata v)
 			{
 				v2f o;
+
+				UNITY_SETUP_INSTANCE_ID(v); //Insert
+				UNITY_INITIALIZE_OUTPUT(v2f, o); //Insert
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); //Insert
+
 				o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
@@ -83,8 +92,15 @@
 			float4 _OutlineColor;
 			float _OutlineSize;
 
+			//UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex); //Insert
+
 			float4 frag (v2f i) : SV_Target
 			{
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); //Insert
+    
+				//float4 col = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.uv); //Insert
+
+
 				float3 normal = normalize(i.worldNormal);
 				float NdotL = dot(_WorldSpaceLightPos0, normal);
 
@@ -116,6 +132,6 @@
 			}
 			ENDCG
 		}
-		UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
+		UsePass "Standard/SHADOWCASTER"
 	}
 }

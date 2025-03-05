@@ -44,6 +44,8 @@ public class GameManager : NetworkBehaviour
         ChangeSceneServerRpc(sceneName, type);
     }
 
+
+
     //returns the current levelType for player spawning
     public int GetLevelType()
     {
@@ -66,6 +68,7 @@ public class GameManager : NetworkBehaviour
         }
        
     }
+
 
 
 

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
+using Unity.Services.Lobbies;
 
 public class MobilePlayerManager : NetworkBehaviour
 {
@@ -84,17 +85,12 @@ public class MobilePlayerManager : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-
-        
-
-
-
         int levelType = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GetLevelType();
 
         //despawns player if one is still referenced
         if (currentMobPlayer != null)
         {
-            DespawnOnNetworkMobileServerRpc();
+            DespawnOnNetworkMobileServerRpc(currentMobPlayer);
         }
 
         //finds all spawnpoints in the level
@@ -114,28 +110,26 @@ public class MobilePlayerManager : NetworkBehaviour
         playerNumber = playerN;
     }
 
-    public void SetClient(ulong client)
-    {
-        clientID = client;
-        Debug.Log(client);
-
-    }
 
     private void DisconButtonPressed()
     {
-        DespawnOnNetworkMobileServerRpc();
-        DisconnectPlayerServerRpc(OwnerClientId);
+        if(!IsOwner) return;
+        DespawnOnNetworkMobileServerRpc(currentMobPlayer);
+        Debug.Log("Client is: " + OwnerClientId);
+        NetworkManager.Singleton.Shutdown();
+        //DisconnectPlayerServerRpc(OwnerClientId);
     }
 
 
 
 
     [ServerRpc]
-    void DisconnectPlayerServerRpc(ulong clientID)
+     void DisconnectPlayerServerRpc( ulong clientID)
     {
 
+        Debug.Log("Disconnecting Player: " + clientID);
+
         NetworkManager.Singleton.DisconnectClient(clientID);
-        this.NetworkObject.Despawn();
 
     }
 
@@ -181,9 +175,15 @@ public class MobilePlayerManager : NetworkBehaviour
 
     //Despawns the player on the network
     [ServerRpc]
-    void DespawnOnNetworkMobileServerRpc()
+    void DespawnOnNetworkMobileServerRpc(NetworkObjectReference player)
     {
-        currentMobPlayer.Despawn();
+      
+        NetworkObject plObj;
+        player.TryGet(out plObj);
+        
+        plObj.Despawn(true);
+        Destroy(plObj);
+       
     }
 
 }

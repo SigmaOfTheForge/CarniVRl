@@ -74,6 +74,11 @@ public class TestLobby : MonoBehaviour
     private void Update()
     {
         HandleHeartBeat();
+
+        if(Input.GetKeyDown(KeyCode.C) && !isHosting)
+        {
+            CreateLobby();
+        }
     }
     //function that does a simple function to keep lobby active
     private async void HandleHeartBeat()

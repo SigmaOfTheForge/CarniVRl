@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class OnScreenLog : MonoBehaviour
 {
-    uint qSize = 15;
+    uint qSize = 30;
     Queue myLogQueue = new Queue();
 
     private void Awake()

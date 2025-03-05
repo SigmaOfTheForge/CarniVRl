@@ -23,8 +23,7 @@ public class PlayerSeparator : NetworkBehaviour
         if (!IsOwner) return;
 
         ulong clientID = NetworkManager.Singleton.LocalClientId;
-        Debug.Log("[PS]LocalClient is: " + clientID);
-
+    
         
          if (Application.platform == RuntimePlatform.Android)
         {
@@ -55,14 +54,13 @@ public class PlayerSeparator : NetworkBehaviour
 
        
 
-        Debug.Log("Client in PS-RPC is: " + clientID);
-
+        
         switch (playerType)
         {
             //Spawn Mobile player
             case 0:
                 player = Instantiate(mobilePlayer);
-                //DDOLManager.instance.AddDDOLObject(player.gameObject);
+                
                 DontDestroyOnLoad(player);
 
                 player.SpawnWithOwnership(clientID, false);
@@ -72,7 +70,7 @@ public class PlayerSeparator : NetworkBehaviour
             case 1:
                 
                 player = Instantiate(pcPlayer);
-                //DDOLManager.instance.AddDDOLObject(player.gameObject);
+                
                 DontDestroyOnLoad(player);
                 player.SpawnWithOwnership( clientID, false);
               

@@ -72,4 +72,5 @@ MonoBehaviour:
   vrPlayerHead:
   - {fileID: 8199276320477238834, guid: bfeacf8f512ce234c90fb3ff66e96b58, type: 3}
   - {fileID: 8123236587272580451, guid: 52b917c473f7159478d750be8e1e25cf, type: 3}
+  cDisconManager: {fileID: 3222166372049405727, guid: bb24204f65cf3ae4788e1124bbb9a94f, type: 3}
   currentPlayer: {fileID: 0}

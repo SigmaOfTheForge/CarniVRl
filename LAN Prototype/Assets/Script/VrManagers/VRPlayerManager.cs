@@ -20,6 +20,9 @@ public class VRPlayerManager : NetworkBehaviour
     private GameObject[] vrPlayerHead;
 
     [SerializeField]
+    private GameObject cDisconManager;
+
+    [SerializeField]
     private NetworkObject currentPlayer;
 
     private Transform spawnPoint;
@@ -60,6 +63,8 @@ public class VRPlayerManager : NetworkBehaviour
             currentPlayer.transform.rotation = spawnPoint.transform.rotation;
 
         }
+
+        Instantiate(cDisconManager, gameObject.transform);
     }
 
 
