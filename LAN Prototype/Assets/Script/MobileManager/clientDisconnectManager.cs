@@ -33,17 +33,20 @@ public class clientDisconnectManager : MonoBehaviour
     private async void OnClientDisconnectCallback(ulong clientID)
     {
         Debug.Log("Callback called");
+        Debug.Log("ID is" + AuthenticationService.Instance.PlayerId + " - " + clientID);
 
-        //if (Application.platform == RuntimePlatform.WindowsPlayer)
-        //{
-        //    await LobbyService.Instance.DeleteLobbyAsync(LobbyService.Instance.GetJoinedLobbiesAsync().Result[0]);
-        //}
-        //else
-        //{
-            await LobbyService.Instance.RemovePlayerAsync(LobbyService.Instance.GetJoinedLobbiesAsync().Result[0], AuthenticationService.Instance.PlayerId);
-        //}
+        if(Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().CloseLobby();
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().DisconnectPlayer(AuthenticationService.Instance.PlayerId);
+        }
+       
 
-        
+
+
 
 
         AuthenticationService.Instance.SignOut(true);

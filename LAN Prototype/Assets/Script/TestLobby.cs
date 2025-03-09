@@ -17,7 +17,7 @@ using static UnityEngine.AudioSettings;
 public class TestLobby : MonoBehaviour
 {
     [SerializeField]
-    private GameObject mainCamera;
+    private GameObject mainCamera, waitingRoomUI;
 
     [SerializeField]
     private NetworkObject GameManager;
@@ -28,7 +28,7 @@ public class TestLobby : MonoBehaviour
     //[SerializeField]
     private Button joinButton, createButton, listButton, qJoinButton;
 
-    private string playerNameString, lobbyIPName;
+    private string playerNameString, lobbyIPName, lobbyID;
     private Lobby hostLobby, joinedLobby;
     private float heatBeatTimer;
 
@@ -63,7 +63,13 @@ public class TestLobby : MonoBehaviour
         {
             Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
         };
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
+
+       
 
         FindButtons();
 
@@ -80,6 +86,35 @@ public class TestLobby : MonoBehaviour
             CreateLobby();
         }
     }
+
+    public async void DisconnectPlayer(string playerID)
+    {
+        try
+        {
+            await LobbyService.Instance.RemovePlayerAsync(lobbyID, playerID);
+            AuthenticationService.Instance.SignOut(true);
+        }
+        catch(LobbyServiceException ex)
+        {
+            Debug.Log(ex.Message);
+        }
+    }
+
+    public async void CloseLobby()
+    {
+        try
+        {
+            await LobbyService.Instance.DeleteLobbyAsync(lobbyID);
+            AuthenticationService.Instance.SignOut(true);
+            hostLobby = null;
+        }
+        catch (LobbyServiceException ex)
+        {
+            Debug.Log(ex.ToString());
+        }
+    }
+
+
     //function that does a simple function to keep lobby active
     private async void HandleHeartBeat()
     {
@@ -122,7 +157,7 @@ public class TestLobby : MonoBehaviour
 
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, lobbyOptions);
             hostLobby = lobby;
-
+            lobbyID = lobby.Id;
             ushort port = 7777;
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(lobbyIPName, port);
 
@@ -149,7 +184,8 @@ public class TestLobby : MonoBehaviour
                 manager.Spawn(false);
             }
 
-          
+            Instantiate(waitingRoomUI);
+
 
         }
         catch (LobbyServiceException e)

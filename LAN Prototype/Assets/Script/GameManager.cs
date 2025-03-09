@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using Unity.Services.Lobbies;
 
 public class GameManager : NetworkBehaviour
 {
@@ -34,6 +35,10 @@ public class GameManager : NetworkBehaviour
             
             ChangeSceneServerRpc("Lobby", 0);
         }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            CloseLobbyServerRpc();
+        }
     }
 
 
@@ -44,7 +49,10 @@ public class GameManager : NetworkBehaviour
         ChangeSceneServerRpc(sceneName, type);
     }
 
-
+    public void CloseLobby()
+    {
+        CloseLobbyServerRpc();
+    }
 
     //returns the current levelType for player spawning
     public int GetLevelType()
@@ -52,7 +60,14 @@ public class GameManager : NetworkBehaviour
         return levelVariable.Value;
     }
 
-   
+    [ServerRpc]
+    private void CloseLobbyServerRpc()
+    {
+
+
+
+        NetworkManager.Singleton.Shutdown();
+    }
 
     //Loads levels across networks and calls all players to load into the scene
     [ServerRpc]
