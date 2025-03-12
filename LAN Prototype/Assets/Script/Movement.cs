@@ -41,9 +41,6 @@ public class Movement : NetworkBehaviour
 
             }
 
-           
-
-
             if (cameraObject == null)
             {
                 cameraObject = Instantiate(cameraPrefab, cameraSpawnLoc);
