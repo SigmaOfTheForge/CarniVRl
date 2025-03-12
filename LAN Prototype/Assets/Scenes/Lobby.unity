@@ -2515,6 +2515,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: '[DEBUG] OnScreenLog'
       objectReference: {fileID: 0}
+    - target: {fileID: 1337009193624792280, guid: 4cfdd7661ee61364680e21241ec5615e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2861083340362688622, guid: 4cfdd7661ee61364680e21241ec5615e, type: 3}
       propertyPath: m_RootOrder
       value: 7
