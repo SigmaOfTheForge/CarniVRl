@@ -8,19 +8,10 @@ public class WaitingRoomVRUI : MonoBehaviour
     [SerializeField]
     private Button startButton, quitButton;
 
-    // Start is called before the first frame update
     void Start()
     {
-
-
         startButton.onClick.AddListener(() => StartGame());
         quitButton.onClick.AddListener(() => CloseLobby());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void StartGame()

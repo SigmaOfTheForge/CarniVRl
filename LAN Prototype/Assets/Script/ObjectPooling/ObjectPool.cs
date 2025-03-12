@@ -3,33 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class BallPit : NetworkBehaviour //MonoBehaviour -> NetworkBehaviour so that the script can have access to the network stuff
+//is parent script that is inherited from
+public class ObjectPool : NetworkBehaviour //MonoBehaviour -> NetworkBehaviour so that the script can have access to the network stuff
 {
-    public static BallPit SharedInstance;
     public List<NetworkObject> pooledObjects; //GameObject -> NetworkObject for the same reason ^
     public NetworkObject objectToPool;
     public int amountToPool;
-    
-    void Awake()
-    {
-        SharedInstance = this;
-    }
 
-    void Start()
+    public void ObjectInitiation()
     {
-        if (!IsHost) return;
-
-        pooledObjects = new List<NetworkObject>();
+        //makes sure only the server can run the code
+        if ( Application.platform == RuntimePlatform.Android ) return;
+        
+        pooledObjects = new List<NetworkObject>(5);
         NetworkObject tmp;
         //instantiates the number of objects set and then
         //sets them as inactive before adding to pooled objects list
         //objects will be ready to use when the game runs
-        for(int i = 0; i < amountToPool; i++)
+        for (int i = 0; i < amountToPool; i++)
         {
-            tmp = Instantiate(objectToPool);
-            tmp.Spawn();
-            tmp.gameObject.SetActive(false);
+            Debug.Log("SpawningObject");
+            tmp = Instantiate(objectToPool); 
+            
             pooledObjects.Add(tmp);
+            tmp.gameObject.SetActive(false);
+            
+
         }
     }
 
@@ -37,11 +36,11 @@ public class BallPit : NetworkBehaviour //MonoBehaviour -> NetworkBehaviour so t
     //ie. set the object to active
     public NetworkObject GetPooledObject()
     {
-        for(int i = 0; i < amountToPool; i++)
+        for (int i = 0; i < amountToPool; i++)
         {
             //when object is returned to the inactive state
             //it will be sent back to the pool
-            if(!pooledObjects[i].gameObject.activeInHierarchy)
+            if (!pooledObjects[i].gameObject.activeInHierarchy)
             {
                 return pooledObjects[i];
             }
