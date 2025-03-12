@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2894761923
+  GlobalObjectIdHash: 1810098600
   InScenePlacedSourceGlobalObjectIdHash: 1941718089
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -224,8 +224,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 255951f782e3b1443aaf374d43d5b5eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parryWindow: 0
+  parryWindow: 0.2
   vrPlayer: {fileID: 0}
+  parryControls: {fileID: 5413803373099160752}
 --- !u!114 &8400191093971017972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,7 +303,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3599176952861396843}
         m_TargetAssemblyTypeName: MobileParry, Assembly-CSharp
-        m_MethodName: Shield
+        m_MethodName: OnShield
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

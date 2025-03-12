@@ -15,39 +15,32 @@ public class MobileParry : NetworkBehaviour
     [SerializeField] Transform vrPlayer;
     bool isParryButtonPressed;
 
-    [SerializeField] private PlayerInputAction parryControls;
-    private InputAction shield;
+    [SerializeField] private PlayerInput parryControls;
 
     private void Start()
     {
         vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").GetComponent<VRPlayerManager>().GetCurrentPlayerTransform();
     }
 
-    private void Awake()
+    public void OnShield(InputAction.CallbackContext context)
     {
-        //parryControls = GetComponent<PlayerInput>();
-        parryControls = new PlayerInputAction();
+        if (context.started)
+        {
+            Debug.Log("Shield up");
+            StartParryWindow();
+            isParryButtonPressed = true;
+        }
+        if (context.canceled)
+        {
+            Debug.Log("Shield down");
+            ResetParryWindow();
+            isParryButtonPressed = false;
+        }
     }
 
-    private void OnEnable()
+    private void StartParryWindow()
     {
-        parryControls.Player.Shield.Enable();
 
-        parryControls.Player.Shield.started += StartParryWindow;
-        parryControls.Player.Shield.canceled += ResetParryWindow;
-    }
-
-    private void OnDisable()
-    {
-        parryControls.Player.Shield.Disable();
-
-        parryControls.Player.Shield.started -= StartParryWindow;
-        parryControls.Player.Shield.canceled -= ResetParryWindow;
-    }
-
-    private void StartParryWindow(InputAction.CallbackContext context)
-    {
-        isParryButtonPressed = true;
         Debug.Log("Parry button pressed!");
         if (parryAttackWindow != null)
         {
@@ -67,12 +60,6 @@ public class MobileParry : NetworkBehaviour
 
     private void ResetParryWindow()
     {
-        throw new NotImplementedException();
-    }
-
-    private void ResetParryWindow(InputAction.CallbackContext context)
-    {
-        isParryButtonPressed = false;
         Debug.Log("Parry button released!");
         if (parryAttackWindow != null)
         {
