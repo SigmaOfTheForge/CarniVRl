@@ -15,8 +15,7 @@ public class Movement : NetworkBehaviour
 
     [SerializeField]
     private float 
-        playerSpeed,
-        rotateSpeed;
+        playerSpeed;
 
     private Transform cameraObject;
 
@@ -25,7 +24,7 @@ public class Movement : NetworkBehaviour
         verticalInput;
         
 
-    private PlayerInput plInput;
+    protected PlayerInput plInput;
 
     void Start()
     {
@@ -51,7 +50,7 @@ public class Movement : NetworkBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         CameraCheck();
         Move();
@@ -88,8 +87,11 @@ public class Movement : NetworkBehaviour
             verticalInput = 0;
         }
 
+        Vector3 movement = transform.right * horizontalInput + transform.forward * verticalInput;
+        
+        
 
         Vector3 pos = transform.position;
-        transform.position = new Vector3(pos.x + (horizontalInput * playerSpeed * Time.deltaTime), pos.y, pos.z + (verticalInput * playerSpeed * Time.deltaTime));
+        transform.position = pos + (movement * playerSpeed  * Time.deltaTime);
     }
 }

@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 2815259775336707058}
   - component: {fileID: 4792735530937883313}
   - component: {fileID: 2925425597298681814}
-  - component: {fileID: 5085744749126141131}
   - component: {fileID: 2703883866681204908}
   - component: {fileID: 7347866185755511005}
   - component: {fileID: 9080793624404860331}
+  - component: {fileID: 164365816354387903}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -163,23 +163,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &5085744749126141131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3941098113345317238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78c2ec9f4f948ae4eb8502482bfbb240, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPrefab: {fileID: 8620388927363088617, guid: 128df9f1d0015b3459a6d62049bf821e, type: 3}
-  cameraSpawnLoc: {fileID: 3077572217818014171}
-  playerUI: {fileID: 3450603946836285303, guid: 0b820b2f765b20042b688ba4033017e0, type: 3}
-  playerSpeed: 5
-  rotateSpeed: 0
 --- !u!114 &2703883866681204908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +236,23 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &164365816354387903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3941098113345317238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cad536f8681044149959df5661e4b709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 8620388927363088617, guid: 128df9f1d0015b3459a6d62049bf821e, type: 3}
+  cameraSpawnLoc: {fileID: 3077572217818014171}
+  playerUI: {fileID: 3450603946836285303, guid: 1c4d5e6625cac89418e761161ab2a685, type: 3}
+  playerSpeed: 5
+  turnSpeed: 20
 --- !u!1 &9194490410543853297
 GameObject:
   m_ObjectHideFlags: 0

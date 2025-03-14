@@ -24,7 +24,7 @@ public class ObjectPool : NetworkBehaviour //MonoBehaviour -> NetworkBehaviour s
         {
             Debug.Log("SpawningObject");
             tmp = Instantiate(objectToPool); 
-            
+            tmp.Spawn();
             pooledObjects.Add(tmp);
             tmp.gameObject.SetActive(false);
             

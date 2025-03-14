@@ -21,6 +21,6 @@ public class WaitingRoomVRUI : MonoBehaviour
 
     void CloseLobby()
     {
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().CloseLobby();
+        GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().CloseLobby();
     }
 }

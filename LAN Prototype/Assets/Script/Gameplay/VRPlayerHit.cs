@@ -8,7 +8,7 @@ public class VRPlayerHit : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ball")
         {
-            ScoreCounter.SharedInstance.MobileScored();
+            GameScoreManager.Instance.AddMobileScore(1);
             //Maybe also add some pp screen effects
             //like minecraft nausia
             //or a flash bang idk

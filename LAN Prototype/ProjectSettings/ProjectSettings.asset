@@ -8,7 +8,7 @@ PlayerSettings:
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
-  defaultScreenOrientation: 4
+  defaultScreenOrientation: 3
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
@@ -16,7 +16,7 @@ PlayerSettings:
   productName: CarniVRl
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.14257741, g: 0.12896048, b: 0.16981131, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
@@ -162,7 +162,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.JadeGames.LANPrototype
+    Android: com.RavensbourneUniversityGPR2025.CarniVRl
     Standalone: com.RavensbourneUniversityGPR2025.CarniVRl
   buildNumber:
     Standalone: 0

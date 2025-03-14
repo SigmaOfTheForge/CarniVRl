@@ -7,10 +7,10 @@ public class MobilePlayerOut : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "mobilePlayer") 
+        if (other.tag == "MobilePlayer") 
         {
             other.gameObject.SetActive(false); //moblile player is killed
-            ScoreCounter.SharedInstance.VRScored();
+            GameScoreManager.Instance.AddVRScore(1);
         }
         else
         {

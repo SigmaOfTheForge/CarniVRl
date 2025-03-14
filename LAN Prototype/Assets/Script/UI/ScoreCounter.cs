@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class ScoreCounter : MonoBehaviour
 {
-    public static ScoreCounter SharedInstance;
+    
     public int vRScore;
     public int mobileScore;
     public List<TextMeshProUGUI> vRScoreText;
     public List<TextMeshProUGUI> mobileScoreText;
 
+    
+
     private void Awake()
     {
-        SharedInstance = this;
+        //subscribes UpdateScore to the OnScoreChanged event in the score manager
+        GameScoreManager.Instance.OnScoreChanged += UpdateScore;
     }
 
     private void Start()
@@ -30,26 +34,21 @@ public class ScoreCounter : MonoBehaviour
         }
     }
 
-    //when VR player hits a mobile player off > VR Score ++
-    //when Mobile player parries ball back to VR player > Mobile Score ++
-
-    public void VRScored()
+    
+    //Function subscribed to event on ScoreManager, whenever the score is altered it will update the scores
+    void UpdateScore(object sender, System.EventArgs e)
     {
-        vRScore++;
-
+        vRScore = GameScoreManager.Instance.GetVRScore();
+        mobileScore = GameScoreManager.Instance.GetMobileScore();
         for (int i = 0; i < vRScoreText.Count; i++)
         {
             vRScoreText[i].text = vRScore.ToString();
         }
-    }
-
-    public void MobileScored()
-    {
-        mobileScore++;
         for (int i = 0; i < mobileScoreText.Count; i++)
         {
             mobileScoreText[i].text = mobileScore.ToString();
         }
     }
+
 
 }

@@ -8,7 +8,7 @@ using Unity.Services.Lobbies;
 public class GameManager : NetworkBehaviour
 {
 
-    [SerializeField]
+    
     private int levelType = 0;
 
     //Network variables are synchronised across clients, all network variables must be initialised
@@ -35,10 +35,7 @@ public class GameManager : NetworkBehaviour
             
             ChangeSceneServerRpc("Lobby", 0);
         }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            CloseLobbyServerRpc();
-        }
+
     }
 
 
@@ -49,25 +46,12 @@ public class GameManager : NetworkBehaviour
         ChangeSceneServerRpc(sceneName, type);
     }
 
-    public void CloseLobby()
-    {
-        CloseLobbyServerRpc();
-    }
-
     //returns the current levelType for player spawning
     public int GetLevelType()
     {
         return levelVariable.Value;
     }
 
-    [ServerRpc]
-    private void CloseLobbyServerRpc()
-    {
-
-
-
-        NetworkManager.Singleton.Shutdown();
-    }
 
     //Loads levels across networks and calls all players to load into the scene
     [ServerRpc]
