@@ -5,10 +5,7 @@ using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using System.Globalization;
 using UnityEngine.UI;
-using Unity.VisualScripting;
-using Unity.Services.Core;
-using Unity.Services.Authentication;
-using Unity.Services.Lobbies;
+
 
 public class MobilePlayerManager : NetworkBehaviour
 {
@@ -101,7 +98,7 @@ public class MobilePlayerManager : NetworkBehaviour
         //instantiates and spawns the player
         SpawnOnNetworkMobileServerRpc(levelType, clientID);
 
-      
+        
 
     }
     //when the player is spawned by the separator their player number is set
@@ -117,7 +114,7 @@ public class MobilePlayerManager : NetworkBehaviour
         DespawnOnNetworkMobileServerRpc(currentMobPlayer);
         Debug.Log("Client is: " + OwnerClientId);
         NetworkManager.Singleton.Shutdown();
-        //DisconnectPlayerServerRpc(OwnerClientId);
+
     }
 
 

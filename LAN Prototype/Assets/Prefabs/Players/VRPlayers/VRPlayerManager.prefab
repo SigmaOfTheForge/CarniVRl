@@ -66,11 +66,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80db267a2bafef8438a1c595ec44ac42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vrMenuInput:
+    m_Name: Vr Menu Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b0abb80c-d431-4407-adb1-e24c796581cb
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: aabe49fb-aefe-41d9-a07a-cc30f8dfe2cd
+      m_Path: <XRController>{LeftHand}/{PrimaryButton}
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Vr Menu Input
+      m_Flags: 0
+    m_Flags: 0
   vrPlayerType:
   - {fileID: 940189340507912645, guid: 598f3ad0a51762b4b84249b96e1900f8, type: 3}
   - {fileID: 2880199327896055806, guid: a001464121f204f48ba956ae03d0665f, type: 3}
-  vrPlayerHead:
-  - {fileID: 8199276320477238834, guid: bfeacf8f512ce234c90fb3ff66e96b58, type: 3}
-  - {fileID: 8123236587272580451, guid: 52b917c473f7159478d750be8e1e25cf, type: 3}
   cDisconManager: {fileID: 3222166372049405727, guid: bb24204f65cf3ae4788e1124bbb9a94f, type: 3}
+  menuUI: {fileID: 9219140643657484586, guid: 02f97f75ed98eea43ba7e8645788c8f1, type: 3}
   currentPlayer: {fileID: 0}

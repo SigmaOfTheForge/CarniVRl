@@ -9,11 +9,18 @@ public class BallPit : ObjectPool
     
     void Awake()
     {
+        //makes sure only the server can run the code
+        if (Application.platform == RuntimePlatform.Android) return;
+
         SharedInstance = this;
     }
 
     void Start()
     {
+        //makes sure only the server can run the code
+        if (Application.platform == RuntimePlatform.Android) return;
+
+
         ObjectInitiation();
     }
 }
