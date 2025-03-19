@@ -11,6 +11,7 @@ public class MobileParry : NetworkBehaviour
     private bool isParryEnabled = false;
     private bool isParryWindowActive = false;
     [SerializeField] private float parryWindow;
+    [SerializeField] private GameObject parryShieldObj;
     
     [SerializeField] Transform vrPlayer;
     bool isParryButtonPressed;
@@ -19,21 +20,36 @@ public class MobileParry : NetworkBehaviour
 
     private void Start()
     {
-        vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").GetComponent<VRPlayerManager>().GetCurrentPlayerTransform();
+        if (!IsOwner) return;
+
+        parryShieldObj.SetActive(false);
+        vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Manager").GetComponent<VRPlayerManager>().GetCurrentPlayerTransform();
     }
 
     public void OnShield(InputAction.CallbackContext context)
     {
+        if (!IsOwner) return;
+
+        if (!vrPlayer)
+        {
+            vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
+
+        }
+
         if (context.started)
         {
             Debug.Log("Shield up");
             StartParryWindow();
+            parryShieldObj.SetActive(true);
+
             isParryButtonPressed = true;
         }
         if (context.canceled)
         {
             Debug.Log("Shield down");
             ResetParryWindow();
+            parryShieldObj.SetActive(false);
+
             isParryButtonPressed = false;
         }
     }
@@ -77,6 +93,9 @@ public class MobileParry : NetworkBehaviour
 
     private void HandleAttack(bool canParry, bool canBlock, GameObject ball, Rigidbody brb)
     {
+        if (!IsOwner) return;
+
+
         if (isParryEnabled && canParry)
         {
             Debug.Log("Parried");
@@ -115,6 +134,9 @@ public class MobileParry : NetworkBehaviour
     
     void OnCollisionEnter(Collision other)
     {
+        if (!IsOwner) return;
+
+
         if (other.gameObject.tag == "CannonBall")
         {
             Rigidbody brb = other.gameObject.GetComponent<Rigidbody>();

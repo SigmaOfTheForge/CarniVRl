@@ -10,6 +10,8 @@ public class BowlingBallSpawnScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Application.platform == RuntimePlatform.Android) return;
+ 
         NetworkObject bowlingBall = BallPit.SharedInstance.GetPooledObject();
 
         if (bowlingBall != null)

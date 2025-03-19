@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using Unity.XR.CoreUtils;
-using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class VRPlayerManager : NetworkBehaviour
 {
-
+    [SerializeField]
+    private InputAction vrMenuInput;
   
 
 
     [SerializeField]
     private NetworkObject[] vrPlayerType;
 
-    [SerializeField]
-    private GameObject[] vrPlayerHead;
+    
 
     [SerializeField]
-    private GameObject cDisconManager;
+    private GameObject cDisconManager, menuUI;
 
     [SerializeField]
     private NetworkObject currentPlayer;
+
+    private GameObject menuObject;
 
     private Transform spawnPoint;
 
@@ -65,6 +67,28 @@ public class VRPlayerManager : NetworkBehaviour
         }
 
         Instantiate(cDisconManager, gameObject.transform);
+
+        menuObject = Instantiate(menuUI, gameObject.transform);
+        menuObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(CloseLobbyButton);
+        menuObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (!IsOwner) return;
+
+        if (vrMenuInput.IsPressed())
+        {
+            menuObject.SetActive(!menuObject.activeSelf);
+            menuObject.transform.position = currentPlayer.transform.position;
+            currentPlayer.transform.rotation = currentPlayer.transform.rotation;
+        }
+
+    }
+
+    private void CloseLobbyButton()
+    {
+        GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().CloseLobby();
     }
 
 
