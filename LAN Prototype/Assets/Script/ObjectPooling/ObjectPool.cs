@@ -15,7 +15,7 @@ public class ObjectPool : NetworkBehaviour //MonoBehaviour -> NetworkBehaviour s
         //makes sure only the server can run the code
         if ( Application.platform == RuntimePlatform.Android ) return;
         
-        pooledObjects = new List<NetworkObject>(5);
+        pooledObjects = new List<NetworkObject>();
         NetworkObject tmp;
         //instantiates the number of objects set and then
         //sets them as inactive before adding to pooled objects list
@@ -36,6 +36,8 @@ public class ObjectPool : NetworkBehaviour //MonoBehaviour -> NetworkBehaviour s
     //ie. set the object to active
     public NetworkObject GetPooledObject()
     {
+        if (pooledObjects.Count == 0) return null;
+        
         for (int i = 0; i < amountToPool; i++)
         {
             //when object is returned to the inactive state

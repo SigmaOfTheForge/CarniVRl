@@ -21,6 +21,7 @@ TagManager:
   - Mob_Player_Manager
   - Ball
   - NetworkManager
+  - Mobile_Player
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Water
   - UI
   - Post-Processing
-  - 
+  - Bowling-Ball
   - 
   - 
   - 

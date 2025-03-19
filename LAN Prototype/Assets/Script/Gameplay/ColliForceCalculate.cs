@@ -5,24 +5,18 @@ using UnityEngine;
 public class ColliForceCalculate : MonoBehaviour
 {
     Rigidbody rb;
-    float force;
+    float force = 20f;
     
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        force = 10f;
     }
 
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Ball")
         {
-            LaunchPlayer(other);
+            rb.velocity = new Vector3(force, 0f, 0f) + rb.velocity;
         }
-    }
-
-    void LaunchPlayer(Collision other)
-    {
-        rb.velocity = new Vector3 (0f, 0f, other.relativeVelocity.z * force) + rb.velocity;
     }
 }

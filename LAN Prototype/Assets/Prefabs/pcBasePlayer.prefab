@@ -48,11 +48,12 @@ GameObject:
   - component: {fileID: 4777496167764409399}
   - component: {fileID: 3599176952861396843}
   - component: {fileID: 8400191093971017972}
+  - component: {fileID: 8604944992510364255}
   - component: {fileID: 3384420627458946058}
   - component: {fileID: 5413803373099160752}
   m_Layer: 0
   m_Name: pcBasePlayer
-  m_TagString: Untagged
+  m_TagString: Mobile_Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,7 +68,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.38717, y: 0.38717, z: 0.38717}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 355641850941647967}
@@ -102,7 +103,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 99062a2d20f3e8a468e6660668e0a435, type: 2}
+  - {fileID: 2100000, guid: e9373cb87942a4a47a38a52b71aca6ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -170,10 +171,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.5258563
+  m_Height: 1.9432176
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.035199024, z: 0}
 --- !u!114 &2049809271336680723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1810098600
+  GlobalObjectIdHash: 2894761923
   InScenePlacedSourceGlobalObjectIdHash: 1941718089
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -211,7 +212,6 @@ MonoBehaviour:
   cameraSpawnLoc: {fileID: 1874097485294911959}
   playerUI: {fileID: 3450603946836285303, guid: 0b820b2f765b20042b688ba4033017e0, type: 3}
   playerSpeed: 5
-  rotateSpeed: 0
 --- !u!114 &3599176952861396843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +237,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f015e454eb12c2a4ba7b8ccea929e6a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8604944992510364255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227632663234203911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a793644a805e04894c55776ef66f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3384420627458946058
@@ -315,6 +327,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f8efce33-1d38-4434-b2d9-0242549f481a
     m_ActionName: Player/Shield
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ac9f5348-e226-498f-8e0a-bb20d6c9f234
+    m_ActionName: Player/Look
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -330,15 +346,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d0af279c7bc7708428a1c5781c85b065, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.42842
+      value: 1.0090576
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0af279c7bc7708428a1c5781c85b065, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.42842
+      value: 1.0090576
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0af279c7bc7708428a1c5781c85b065, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.42842
+      value: 1.0090576
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0af279c7bc7708428a1c5781c85b065, type: 3}
       propertyPath: m_LocalPosition.x

@@ -5,7 +5,7 @@ using Unity.Netcode;
 
 public class BowlingBallSpawnScript : NetworkBehaviour
 {
-    NetworkObject bowlingBall;
+    //NetworkObject bowlingBall;
 
     // Update is called once per frame
     void Update()
