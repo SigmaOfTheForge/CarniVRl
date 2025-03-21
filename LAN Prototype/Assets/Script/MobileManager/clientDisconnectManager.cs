@@ -32,12 +32,15 @@ public class clientDisconnectManager : MonoBehaviour
 
     private async void OnClientDisconnectCallback(ulong clientID)
     {
+        //if (Application.platform == RuntimePlatform.WindowsEditor) return;
+
+
         Debug.Log("Callback called");
         Debug.Log("ID is" + AuthenticationService.Instance.PlayerId + " - " + clientID);
 
         if(Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
         {
-            GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().CloseLobby();
+            GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().CloseLobby(AuthenticationService.Instance.PlayerId);
         }
         else
         {
@@ -52,12 +55,12 @@ public class clientDisconnectManager : MonoBehaviour
         AuthenticationService.Instance.SignOut(true);
 
       
-        Debug.Log("Client: " + clientID + " is disconnecting");
+        //Debug.Log("Client: " + clientID + " is disconnecting");
         GameObject netMan =NetworkManager.Singleton.gameObject;
         await Task.Delay(1000);
         
         Destroy(netMan);
-        Debug.Log("Scene should be loaded here");
+        //Debug.Log("Scene should be loaded here");
         SceneManager.LoadScene("SampleScene");
 
     }

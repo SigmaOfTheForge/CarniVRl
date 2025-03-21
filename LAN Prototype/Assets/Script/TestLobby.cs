@@ -37,6 +37,11 @@ public class TestLobby : MonoBehaviour
     // Start is called before the first frame update
     private async void Start()
     {
+        DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += CheckIfDuplicate;
+        
+
         await UnityServices.InitializeAsync();
 
         string name =  System.Net.Dns.GetHostName();
@@ -52,7 +57,8 @@ public class TestLobby : MonoBehaviour
             }
         }
 
-        
+             
+
 
         
        
@@ -73,6 +79,14 @@ public class TestLobby : MonoBehaviour
 
         FindButtons();
 
+    }
+
+    void CheckIfDuplicate( Scene sceneName, LoadSceneMode loadSceneMode)
+    {
+        if(SceneManager.GetSceneByBuildIndex(0) ==  SceneManager.GetActiveScene())
+        {
+            Destroy(this.gameObject);
+        }
     }
 
 
@@ -100,10 +114,11 @@ public class TestLobby : MonoBehaviour
         }
     }
 
-    public async void CloseLobby()
+    public async void CloseLobby(string playerID)
     {
         try
         {
+            await LobbyService.Instance.RemovePlayerAsync(lobbyID, playerID);
             await LobbyService.Instance.DeleteLobbyAsync(lobbyID);
             AuthenticationService.Instance.SignOut(true);
             hostLobby = null;
@@ -186,7 +201,7 @@ public class TestLobby : MonoBehaviour
 
             Instantiate(waitingRoomUI);
 
-
+        //NetworkManager.Singleton.SceneManager.OnLoadComplete += CheckIfDuplicate;
         }
         catch (LobbyServiceException e)
         {
@@ -194,10 +209,7 @@ public class TestLobby : MonoBehaviour
             isHosting = false;
 
         }
-        if (GameObject.FindGameObjectWithTag("GameController"))
-        {
-
-        }
+      
 
     }
 
@@ -338,7 +350,7 @@ public class TestLobby : MonoBehaviour
         {
            createButton = GameObject.FindGameObjectWithTag("Button_Create").GetComponent<Button>();
            listButton = GameObject.FindGameObjectWithTag("Button_ListLob").GetComponent<Button>();
-           playerNameText = GameObject.FindGameObjectWithTag("UIInput_Name").GetComponent<TextMeshProUGUI>();
+           //playerNameText = GameObject.FindGameObjectWithTag("UIInput_Name").GetComponent<TextMeshProUGUI>();
 
             listButton.onClick.AddListener(() => ListLobbies());
             createButton.onClick.AddListener(() => CreateLobby());

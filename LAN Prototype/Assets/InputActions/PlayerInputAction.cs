@@ -101,6 +101,34 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""VRPlayer"",
+            ""id"": ""e499ff05-a6b0-4ff7-8f63-4f8a85488b00"",
+            ""actions"": [
+                {
+                    ""name"": ""MenuButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""1dd51d93-2bf8-4da8-9333-e8d34a3a68f2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""78202415-5d82-4d02-8c4a-0d7d68329112"",
+                    ""path"": ""<XRController>{LeftHand}/{SecondaryButton}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -110,11 +138,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Shield = m_Player.FindAction("Shield", throwIfNotFound: true);
+        // VRPlayer
+        m_VRPlayer = asset.FindActionMap("VRPlayer", throwIfNotFound: true);
+        m_VRPlayer_MenuButton = m_VRPlayer.FindAction("MenuButton", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, PlayerInputAction.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_VRPlayer.enabled, "This will cause a leak and performance issues, PlayerInputAction.VRPlayer.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -234,10 +266,60 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // VRPlayer
+    private readonly InputActionMap m_VRPlayer;
+    private List<IVRPlayerActions> m_VRPlayerActionsCallbackInterfaces = new List<IVRPlayerActions>();
+    private readonly InputAction m_VRPlayer_MenuButton;
+    public struct VRPlayerActions
+    {
+        private @PlayerInputAction m_Wrapper;
+        public VRPlayerActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MenuButton => m_Wrapper.m_VRPlayer_MenuButton;
+        public InputActionMap Get() { return m_Wrapper.m_VRPlayer; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(VRPlayerActions set) { return set.Get(); }
+        public void AddCallbacks(IVRPlayerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_VRPlayerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_VRPlayerActionsCallbackInterfaces.Add(instance);
+            @MenuButton.started += instance.OnMenuButton;
+            @MenuButton.performed += instance.OnMenuButton;
+            @MenuButton.canceled += instance.OnMenuButton;
+        }
+
+        private void UnregisterCallbacks(IVRPlayerActions instance)
+        {
+            @MenuButton.started -= instance.OnMenuButton;
+            @MenuButton.performed -= instance.OnMenuButton;
+            @MenuButton.canceled -= instance.OnMenuButton;
+        }
+
+        public void RemoveCallbacks(IVRPlayerActions instance)
+        {
+            if (m_Wrapper.m_VRPlayerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IVRPlayerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_VRPlayerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_VRPlayerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public VRPlayerActions @VRPlayer => new VRPlayerActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnShield(InputAction.CallbackContext context);
+    }
+    public interface IVRPlayerActions
+    {
+        void OnMenuButton(InputAction.CallbackContext context);
     }
 }

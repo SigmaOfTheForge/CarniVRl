@@ -26,7 +26,7 @@ public class MobileGracePeriod : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         gracePeriodVisualIndicator.enabled = false;
-        gameObject.layer = LayerMask.NameToLayer("Nothing");
+        gameObject.layer = LayerMask.NameToLayer("Default");
         capsuleCollider.excludeLayers = LayerMask.GetMask("Nothing");
     }
 }

@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Unity.Services.Authentication;
 
 
 public class VRPlayerManager : NetworkBehaviour
 {
     [SerializeField]
-    private InputAction vrMenuInput;
+    private PlayerInput vrMenuInput;
   
 
 
@@ -36,7 +37,7 @@ public class VRPlayerManager : NetworkBehaviour
     private void Awake()
     {
 
-
+        vrMenuInput = GetComponent<PlayerInput>();
 
         //Delegate to OnLoadComplete, called when all clients have finished loading a scene
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadScene;
@@ -69,7 +70,7 @@ public class VRPlayerManager : NetworkBehaviour
         Instantiate(cDisconManager, gameObject.transform);
 
         menuObject = Instantiate(menuUI, gameObject.transform);
-        menuObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(CloseLobbyButton);
+        menuObject.GetComponentInChildren<Button>().onClick.AddListener(CloseLobbyButton);
         menuObject.SetActive(false);
     }
 
@@ -77,18 +78,18 @@ public class VRPlayerManager : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (vrMenuInput.IsPressed())
+        if (vrMenuInput.actions["MenuButton"].WasPressedThisFrame())
         {
             menuObject.SetActive(!menuObject.activeSelf);
             menuObject.transform.position = currentPlayer.transform.position;
-            currentPlayer.transform.rotation = currentPlayer.transform.rotation;
+            menuObject.transform.rotation = currentPlayer.transform.rotation;
         }
 
     }
 
     private void CloseLobbyButton()
     {
-        GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().CloseLobby();
+        NetworkManager.Singleton.Shutdown();
     }
 
 

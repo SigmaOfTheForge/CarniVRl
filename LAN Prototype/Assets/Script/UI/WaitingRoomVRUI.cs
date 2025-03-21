@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,6 @@ public class WaitingRoomVRUI : MonoBehaviour
 
     void CloseLobby()
     {
-        GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().CloseLobby();
+        GameObject.FindGameObjectWithTag("LobbyManager").GetComponent<TestLobby>().CloseLobby(AuthenticationService.Instance.PlayerId);
     }
 }

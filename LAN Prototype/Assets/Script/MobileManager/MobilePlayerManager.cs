@@ -120,15 +120,7 @@ public class MobilePlayerManager : NetworkBehaviour
 
 
 
-    [ServerRpc]
-     void DisconnectPlayerServerRpc( ulong clientID)
-    {
 
-        Debug.Log("Disconnecting Player: " + clientID);
-
-        NetworkManager.Singleton.DisconnectClient(clientID);
-
-    }
 
 
 
