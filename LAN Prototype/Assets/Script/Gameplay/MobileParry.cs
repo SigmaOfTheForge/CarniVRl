@@ -23,7 +23,7 @@ public class MobileParry : NetworkBehaviour
         if (!IsOwner) return;
 
         parryShieldObj.SetActive(false);
-        vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Manager").GetComponent<VRPlayerManager>().GetCurrentPlayerTransform();
+        vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
     }
 
     public void OnShield(InputAction.CallbackContext context)
@@ -99,7 +99,7 @@ public class MobileParry : NetworkBehaviour
         if (isParryEnabled && canParry)
         {
             Debug.Log("Parried");
-            vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").GetComponent<VRPlayerManager>().GetCurrentPlayerTransform();
+            vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
             ball.transform.LookAt(vrPlayer);
             brb.useGravity = false;
             brb.velocity = ball.transform.forward * 50; //make force depend on distance as well //naw that was a bad idea

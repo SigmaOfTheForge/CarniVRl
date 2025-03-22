@@ -19,6 +19,9 @@ public class MobileLobbyMove : Movement
 
     private void Look()
     {
+        if (!IsOwner || !canMove.Value) return;
+
+
         if (plInput.actions["Look"].ReadValue<Vector2>() != Vector2.zero)
         {
             horizontalLookInput = plInput.actions["Look"].ReadValue<Vector2>().x * turnSpeed * Time.deltaTime;

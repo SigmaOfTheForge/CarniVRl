@@ -1,21 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class MobileGracePeriod : MonoBehaviour
+public class MobileGracePeriod : NetworkBehaviour
 {
     private CapsuleCollider capsuleCollider;
     private MeshRenderer gracePeriodVisualIndicator;
 
     private void Start()
     {
-        capsuleCollider = GetComponent<CapsuleCollider>();
-        gracePeriodVisualIndicator = GetComponent<MeshRenderer>();
+        if (!IsOwner) return;
+
+
+        capsuleCollider = this.GetComponent<CapsuleCollider>();
+        gracePeriodVisualIndicator = this.GetComponent<MeshRenderer>();
         gracePeriodVisualIndicator.enabled = false;
     }
 
     private void OnEnable()
     {
+        if(!IsOwner) return;
+
         gameObject.layer = LayerMask.NameToLayer("Bowling-Ball");
         capsuleCollider.excludeLayers = LayerMask.GetMask("Bowling-Ball");
         gracePeriodVisualIndicator.enabled = true;

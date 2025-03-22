@@ -17,6 +17,8 @@ public class Movement : NetworkBehaviour
     private float 
         playerSpeed;
 
+    protected NetworkVariable<bool> canMove = new NetworkVariable<bool>(true);
+
     private Transform cameraObject;
 
     private float
@@ -49,6 +51,11 @@ public class Movement : NetworkBehaviour
 
     }
 
+    public void ToggleMove()
+    {
+        canMove.Value = !canMove.Value;
+    }
+
     // Update is called once per frame
     public virtual void Update()
     {
@@ -72,7 +79,7 @@ public class Movement : NetworkBehaviour
 
     void Move()
     {
-        if (!IsOwner) return;
+        if (!IsOwner || !canMove.Value) return;
 
 
 

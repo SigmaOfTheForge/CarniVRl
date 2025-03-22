@@ -416,6 +416,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: ac9f5348-e226-498f-8e0a-bb20d6c9f234
     m_ActionName: Player/Look
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1dd51d93-2bf8-4da8-9333-e8d34a3a68f2
+    m_ActionName: VRPlayer/MenuButton
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -455,11 +459,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0af279c7bc7708428a1c5781c85b065, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.00000058114523
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0af279c7bc7708428a1c5781c85b065, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0af279c7bc7708428a1c5781c85b065, type: 3}
       propertyPath: m_LocalRotation.y
@@ -467,7 +471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0af279c7bc7708428a1c5781c85b065, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0af279c7bc7708428a1c5781c85b065, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

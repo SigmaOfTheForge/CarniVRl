@@ -42,8 +42,7 @@ public class GameScoreManager : NetworkBehaviour
 
     public int GetMobileScore()
     {
-        EventArgs e = new EventArgs();
-        OnScoreChanged.Invoke(this, e);
+      
         return mobilePlayerScore.Value;
     }
 
