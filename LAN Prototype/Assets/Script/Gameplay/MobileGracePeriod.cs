@@ -21,18 +21,42 @@ public class MobileGracePeriod : NetworkBehaviour
     private void OnEnable()
     {
         if(!IsOwner) return;
-
-        gameObject.layer = LayerMask.NameToLayer("Bowling-Ball");
-        capsuleCollider.excludeLayers = LayerMask.GetMask("Bowling-Ball");
-        gracePeriodVisualIndicator.enabled = true;
+        Debug.Log("Enabled");
+       ChangeLayerClientRpc();
+        ToggleVisibilityClientRpc();
         StartCoroutine(GraceCountdown());
     }
 
     private IEnumerator GraceCountdown()
     {
+        Debug.Log("Coroutine Started");
         yield return new WaitForSeconds(2);
-        gracePeriodVisualIndicator.enabled = false;
-        gameObject.layer = LayerMask.NameToLayer("Default");
-        capsuleCollider.excludeLayers = LayerMask.GetMask("Nothing");
+        Debug.Log("Time Elapsed, deactivating protections");
+        ChangeLayerClientRpc();
+        ToggleVisibilityClientRpc();
+        //gameObject.SendMessage("ToggleMove");
+       
     }
+
+    [ClientRpc]
+    private void ToggleVisibilityClientRpc()
+    {
+        gracePeriodVisualIndicator.enabled = !gracePeriodVisualIndicator.enabled;
+    }
+
+    [ClientRpc]
+    private void ChangeLayerClientRpc()
+    {
+        if(gameObject.layer == LayerMask.NameToLayer("Default"))
+        {
+            gameObject.layer = LayerMask.NameToLayer("Bowling-Ball");
+            capsuleCollider.excludeLayers = LayerMask.GetMask("Bowling-Ball");
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Default");
+            capsuleCollider.excludeLayers = LayerMask.GetMask("Nothing");
+        }
+    }
+
 }

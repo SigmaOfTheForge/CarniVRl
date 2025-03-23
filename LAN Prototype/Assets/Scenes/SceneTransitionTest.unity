@@ -3283,9 +3283,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobileSpawns:
-  - {fileID: 1680810156}
-  - {fileID: 658803812}
-  - {fileID: 1688350934}
+  - {fileID: 1680810157}
+  - {fileID: 658803813}
+  - {fileID: 1688350935}
+  playerRespawnTimer: 0
 --- !u!65 &1515907495
 BoxCollider:
   m_ObjectHideFlags: 0

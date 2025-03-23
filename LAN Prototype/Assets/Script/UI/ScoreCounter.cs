@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public class ScoreCounter : MonoBehaviour
 {
@@ -40,13 +41,17 @@ public class ScoreCounter : MonoBehaviour
     {
         vRScore = GameScoreManager.Instance.GetVRScore();
         mobileScore = GameScoreManager.Instance.GetMobileScore();
+
+        string vrString = vRScore.ToString();
+        string mobileString = mobileScore.ToString();
+
         for (int i = 0; i < vRScoreText.Count; i++)
         {
-            vRScoreText[i].text = vRScore.ToString();
+            vRScoreText[i].text = vrString;
         }
         for (int i = 0; i < mobileScoreText.Count; i++)
         {
-            mobileScoreText[i].text = mobileScore.ToString();
+            mobileScoreText[i].text = mobileString;
         }
     }
 
