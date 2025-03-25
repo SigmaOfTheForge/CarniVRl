@@ -18,7 +18,7 @@ public class MobileGracePeriod : NetworkBehaviour
         gracePeriodVisualIndicator.enabled = false;
     }
 
-    private void OnEnable()
+    public void StartGrace()
     {
         if(!IsOwner) return;
         Debug.Log("Enabled");

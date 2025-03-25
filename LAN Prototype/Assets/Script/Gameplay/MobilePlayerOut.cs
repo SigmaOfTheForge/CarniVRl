@@ -4,11 +4,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-
-
-
-
-
 //goes on the barrier the mobile player hits after getting knocke outwadaw
 public class MobilePlayerOut : NetworkBehaviour
 {
@@ -64,7 +59,7 @@ public class MobilePlayerOut : NetworkBehaviour
 
         playerObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         playerObject.transform.position = mobileSpawns[Random.Range(0, mobileSpawns.Count -1)].position;
-
+        playerObject.SendMessage("StartGrace");
         playerObject.transform.GetComponent <MeshRenderer>().enabled = true;
 
         //playerObject.SendMessage("ToggleMove");
