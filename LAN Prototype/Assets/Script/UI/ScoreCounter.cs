@@ -18,7 +18,7 @@ public class ScoreCounter : MonoBehaviour
     private void Awake()
     {
         //subscribes UpdateScore to the OnScoreChanged event in the score manager
-        GameScoreManager.Instance.OnScoreChanged += UpdateScore;
+        if (GameScoreManager.Instance != null) GameScoreManager.Instance.OnScoreChanged += UpdateScore;
     }
 
     private void Start()

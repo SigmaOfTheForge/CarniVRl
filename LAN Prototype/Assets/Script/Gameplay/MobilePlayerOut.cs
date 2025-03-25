@@ -16,6 +16,8 @@ public class MobilePlayerOut : NetworkBehaviour
         if (!IsHost) return; //ensures only the host will call the RPC to not recieve multiple calls
 
 
+        Debug.Log("Triggrt hit!");
+
         if (other.tag == "Mobile_Player") 
         {
           
