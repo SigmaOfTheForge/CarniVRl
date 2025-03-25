@@ -8,6 +8,10 @@ public class BowlBallKinematic : MonoBehaviour
     void OnEnable()
     {
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
+
+        
     }
+
+
 
 }
