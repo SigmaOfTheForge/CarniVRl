@@ -36,7 +36,6 @@ public class MobileParry : NetworkBehaviour
       
     }
 
-    //When the player presses the shield icon 
     public void Update()
     {
         if (!IsOwner) return;
@@ -55,6 +54,7 @@ public class MobileParry : NetworkBehaviour
             Debug.Log("Shield down");
             ResetParryWindow();
             //CallToggleServerRpc();
+            
         }
     }
 
@@ -196,7 +196,7 @@ public class MobileParry : NetworkBehaviour
     [ServerRpc]
     private void CallToggleServerRpc()
     {
-        parryShieldObj.SetActive(false);
+        ToggleShieldClientRpc();
     }
 
 
@@ -205,6 +205,7 @@ public class MobileParry : NetworkBehaviour
     private void ToggleShieldClientRpc()
     {
         //Debug.Log("Activate Shield");
+        //this.transform.GetChild(2).GetComponent<MeshRenderer>().enabled = !this.transform.GetChild(2).GetComponent<MeshRenderer>().enabled;
         parryShieldObj.SetActive(!parryShieldObj.activeSelf);
     }
 
