@@ -16,6 +16,8 @@ public class MobileParry : NetworkBehaviour
     Rigidbody rb;
     float force = 20f;
 
+    [SerializeField] private PlayerInput parryAction;
+    
     [SerializeField] Transform vrPlayer;
     bool isParryButtonPressed;
 
@@ -28,9 +30,34 @@ public class MobileParry : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
 
         //Deactivate shield visibility and find VR Player in the scene
-        ToggleShieldDeactiveClientRpc();
+        CallToggleServerRpc();
         vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
+        parryAction = gameObject.GetComponent<PlayerInput>();
+      
     }
+
+    //When the player presses the shield icon 
+    public void Update()
+    {
+        if (!IsOwner) return;
+
+        if (parryAction.actions["Shield"].IsPressed() && !isParryButtonPressed)
+        {
+            isParryButtonPressed = true;
+            Debug.Log("Shield up");
+            StartParryWindow();
+
+            
+        }
+        else if (!parryAction.actions["Shield"].IsPressed() && isParryButtonPressed)
+        {
+            isParryButtonPressed = false;
+            Debug.Log("Shield down");
+            ResetParryWindow();
+            //CallToggleServerRpc();
+        }
+    }
+
 
     //When the player presses the shield icon 
     public void OnShield(InputAction.CallbackContext context)
@@ -44,27 +71,27 @@ public class MobileParry : NetworkBehaviour
 
         }
 
-        if (context.started)
-        {
-            Debug.Log("Shield up");
-            StartParryWindow();
+        //if (context.started)
+        //{
+        //    Debug.Log("Shield up");
+        //    StartParryWindow();
             
-            isParryButtonPressed = true;
-        }
-        if (context.canceled)
-        {
-            Debug.Log("Shield down");
-            ResetParryWindow();
+        //    isParryButtonPressed = true;
+        //}
+        //else if (context.canceled)
+        //{
+        //    Debug.Log("Shield down");
+        //    ResetParryWindow();
 
-            isParryButtonPressed = false;
-        }
+        //    isParryButtonPressed = false;
+        //}
     }
 
     private void StartParryWindow()
     {
 
-        Debug.Log("Parry button pressed!");
-        ToggleShieldActiveClientRpc();
+        //Debug.Log("Parry button pressed!");
+
         if (parryAttackWindow != null)
         {
             StopCoroutine(parryAttackWindow);
@@ -75,6 +102,7 @@ public class MobileParry : NetworkBehaviour
 
     private IEnumerator ParryWindowCoroutine()
     {
+        CallToggleServerRpc();
         isParryEnabled = true;
         isParryWindowActive = true;
         yield return new WaitForSeconds(parryWindow);
@@ -83,21 +111,20 @@ public class MobileParry : NetworkBehaviour
 
     private void ResetParryWindow()
     {
-        Debug.Log("Parry button released!");
-        ToggleShieldDeactiveClientRpc();
+        //Debug.Log("Parry button released!");
+
 
         if (parryAttackWindow != null)
         {
             StopCoroutine(parryAttackWindow);
             parryAttackWindow = null;
+            CallToggleServerRpc();
+
         }
         isParryEnabled = false;
         isParryWindowActive = false;
-    }
+        
 
-    private bool IsParryWindowActive()
-    {
-        return isParryWindowActive;
     }
 
     private void HandleAttack(bool canParry, bool canBlock, GameObject ball, Rigidbody brb)
@@ -166,21 +193,22 @@ public class MobileParry : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    private void ToggleShieldDeactiveClientRpc()
+    [ServerRpc]
+    private void CallToggleServerRpc()
     {
-        Debug.Log("Activate Shield");
-        this.transform.GetChild(2).GetComponent<MeshRenderer>().enabled = false;
         parryShieldObj.SetActive(false);
     }
 
+
+
     [ClientRpc]
-    private void ToggleShieldActiveClientRpc()
+    private void ToggleShieldClientRpc()
     {
-        Debug.Log("Deactivate Shield");
-        this.transform.GetChild(2).GetComponent<MeshRenderer>().enabled = true;
-        parryShieldObj.SetActive(true);
+        //Debug.Log("Activate Shield");
+        parryShieldObj.SetActive(!parryShieldObj.activeSelf);
     }
+
+
 
 
 

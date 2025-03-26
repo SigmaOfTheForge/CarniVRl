@@ -6,7 +6,7 @@ using System;
 using UnityEngine.UI;
 using Unity.Netcode;
 
-public class ScoreCounter : MonoBehaviour
+public class ScoreCounter : NetworkBehaviour
 {
     
     public int vRScore;
@@ -24,8 +24,11 @@ public class ScoreCounter : MonoBehaviour
 
     private void Start()
     {
-        vRScore = 5;
-        mobileScore = 72;
+        vRScore = 0;
+        GameScoreManager.Instance.SetVRScore(vRScore);
+        mobileScore = 0;
+        GameScoreManager.Instance.SetMobileScore(mobileScore);
+
         for (int i = 0; i < vRScoreText.Count; i++)
         {
             vRScoreText[i].text = vRScore.ToString();
@@ -38,13 +41,14 @@ public class ScoreCounter : MonoBehaviour
 
     void UpdateScore(object sender, System.EventArgs e)
     {
-        Debug.Log("ScoreUpdateCalled");
+       
         CallScoreUpdateServerRpc();
     }
 
     [ServerRpc]
     void CallScoreUpdateServerRpc()
     {
+        Debug.Log("Score Update Server RPC Called");
         UpdateScoreClientRpc();
     }
 
@@ -52,7 +56,7 @@ public class ScoreCounter : MonoBehaviour
     [ClientRpc]
     void UpdateScoreClientRpc()
     {
-        Debug.Log("Score Updated");
+        Debug.Log("Score Update Client RPC Called on client");
         vRScore = GameScoreManager.Instance.GetVRScore();
         mobileScore = GameScoreManager.Instance.GetMobileScore();
 
@@ -67,6 +71,11 @@ public class ScoreCounter : MonoBehaviour
         {
             mobileScoreText[i].text = mobileString;
         }
+
+        Debug.Log("Score Updated on this client");
+
+
+
     }
 
 

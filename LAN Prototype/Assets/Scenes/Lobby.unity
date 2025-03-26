@@ -527,8 +527,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelPanels:
   - {fileID: 1588084259039866914, guid: 192d2e25520e81d4a8c2501989b092e5, type: 3}
-  - {fileID: 2456004927773549414, guid: 92d0a3294ef09cf4884365e3f909c8a8, type: 3}
-  - {fileID: 2298010959499353786, guid: 27600cc34cbd0e5459deec671b7c562b, type: 3}
 --- !u!1001 &125013414
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -213,35 +213,9 @@ public class TestLobby : MonoBehaviour
 
     }
 
-    private async void ListLobbies()
+    private void ListLobbies()
     {
-        try
-        {
-            //Lobby Filter options
-            QueryLobbiesOptions qLobbyOptions = new QueryLobbiesOptions
-            {
-                Count = 25,
-                Filters = new List<QueryFilter>
-                {
-                    new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT)
-                },
-                Order = new List<QueryOrder>
-                {
-                    new QueryOrder(false, QueryOrder.FieldOptions.Created)
-                }
-            };
-        
-        QueryResponse qR = await Lobbies.Instance.QueryLobbiesAsync();
-        Debug.Log("Lobbies Found: " + qR.Results.Count);
-        foreach(Lobby lobby in qR.Results)
-        {
-            Debug.Log("   " + lobby.Name + " " + lobby.MaxPlayers + "\n\tActive Players: " + lobby.Players.Count );
-        }
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.LogError(e);
-        }
+       Application.Quit();
     }
     //join lobby by code
     private async void JoinLobby(string code)
@@ -336,13 +310,13 @@ public class TestLobby : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.Android)
         {
-            joinButton = GameObject.FindGameObjectWithTag("Button_Join").GetComponent<Button>();
+           // joinButton = GameObject.FindGameObjectWithTag("Button_Join").GetComponent<Button>();
             qJoinButton = GameObject.FindGameObjectWithTag("Button_QJ").GetComponent<Button>();
             listButton = GameObject.FindGameObjectWithTag("Button_ListLob").GetComponent<Button>();
-            lobbyCodeText = GameObject.FindGameObjectWithTag("UIInput_Code").GetComponent<TextMeshProUGUI>();
-            playerNameText = GameObject.FindGameObjectWithTag("UIInput_Name").GetComponent<TextMeshProUGUI>();
+            //lobbyCodeText = GameObject.FindGameObjectWithTag("UIInput_Code").GetComponent<TextMeshProUGUI>();
+            //playerNameText = GameObject.FindGameObjectWithTag("UIInput_Name").GetComponent<TextMeshProUGUI>();
 
-            joinButton.onClick.AddListener(() => JoinLobby(lobbyCodeText.text));
+           // joinButton.onClick.AddListener(() => JoinLobby(lobbyCodeText.text));
             listButton.onClick.AddListener(() => ListLobbies());
             qJoinButton.onClick.AddListener(() => QuickJoinLobby());
         }
