@@ -12,7 +12,10 @@ public class MobileParry : NetworkBehaviour
     private bool isParryWindowActive = false;
     [SerializeField] private float parryWindow;
     [SerializeField] private GameObject parryShieldObj;
-    
+
+    Rigidbody rb;
+    float force = 20f;
+
     [SerializeField] Transform vrPlayer;
     bool isParryButtonPressed;
 
@@ -21,6 +24,9 @@ public class MobileParry : NetworkBehaviour
     private void Start()
     {
         if (!IsOwner) return;
+
+        rb = GetComponent<Rigidbody>();
+
         //Deactivate shield visibility and find VR Player in the scene
         ToggleShieldDeactiveClientRpc();
         vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
@@ -110,11 +116,13 @@ public class MobileParry : NetworkBehaviour
         else if (canBlock)
         {
             Debug.Log("Block Performed");
+            rb.velocity = new Vector3((force/4), 0f, 0f) + rb.velocity;
         }
         else
         {
             ball.SetActive(false);
             StartCoroutine(ConfettiSpawn(ball.transform.position));
+            rb.velocity = new Vector3(force, 0f, 0f) + rb.velocity;
         }
     }
 

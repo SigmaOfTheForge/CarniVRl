@@ -130,7 +130,6 @@ GameObject:
   - component: {fileID: 2049809271336680723}
   - component: {fileID: 4777496167764409399}
   - component: {fileID: 3599176952861396843}
-  - component: {fileID: 8400191093971017972}
   - component: {fileID: 8604944992510364255}
   - component: {fileID: 3384420627458946058}
   - component: {fileID: 5413803373099160752}
@@ -312,18 +311,6 @@ MonoBehaviour:
   parryShieldObj: {fileID: 5817410715390277528}
   vrPlayer: {fileID: 0}
   parryControls: {fileID: 5413803373099160752}
---- !u!114 &8400191093971017972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6227632663234203911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f015e454eb12c2a4ba7b8ccea929e6a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8604944992510364255
 MonoBehaviour:
   m_ObjectHideFlags: 0
