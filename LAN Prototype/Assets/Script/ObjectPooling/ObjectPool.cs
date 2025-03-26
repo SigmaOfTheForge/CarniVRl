@@ -24,7 +24,7 @@ public class ObjectPool : NetworkBehaviour //MonoBehaviour -> NetworkBehaviour s
         {
             Debug.Log("SpawningObject");
             tmp = Instantiate(objectToPool); 
-            tmp.Spawn();
+            tmp.Spawn(true);
             pooledObjects.Add(tmp);
             tmp.gameObject.SetActive(false);
             
@@ -33,7 +33,7 @@ public class ObjectPool : NetworkBehaviour //MonoBehaviour -> NetworkBehaviour s
     }
 
     //function so that other scripts can call it to use object in the pool
-    //ie. set the object to active
+    //i.e. set the object to active
     public NetworkObject GetPooledObject()
     {
         //makes sure only the server can run the code

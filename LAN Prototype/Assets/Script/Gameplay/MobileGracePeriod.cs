@@ -10,20 +10,20 @@ public class MobileGracePeriod : NetworkBehaviour
 
     private void Start()
     {
-        if (!IsOwner) return;
+        
 
 
-        capsuleCollider = this.GetComponent<CapsuleCollider>();
-        gracePeriodVisualIndicator = this.GetComponent<MeshRenderer>();
+        capsuleCollider = this.gameObject.GetComponent<CapsuleCollider>();
+        gracePeriodVisualIndicator = this.gameObject.GetComponent<MeshRenderer>();
         gracePeriodVisualIndicator.enabled = false;
     }
 
     public void StartGrace()
     {
-        if(!IsOwner) return;
+        
         Debug.Log("Enabled");
        ChangeLayerClientRpc();
-        ToggleVisibilityClientRpc();
+        ToggleVisibilityActiveClientRpc();
         StartCoroutine(GraceCountdown());
     }
 
@@ -33,15 +33,24 @@ public class MobileGracePeriod : NetworkBehaviour
         yield return new WaitForSeconds(2);
         Debug.Log("Time Elapsed, deactivating protections");
         ChangeLayerClientRpc();
-        ToggleVisibilityClientRpc();
+        ToggleVisibilityDeactiveClientRpc();
         //gameObject.SendMessage("ToggleMove");
        
     }
 
     [ClientRpc]
-    private void ToggleVisibilityClientRpc()
+    private void ToggleVisibilityDeactiveClientRpc()
     {
-        gracePeriodVisualIndicator.enabled = !gracePeriodVisualIndicator.enabled;
+        gracePeriodVisualIndicator.enabled = false;
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+    }
+
+    [ClientRpc]
+    private void ToggleVisibilityActiveClientRpc()
+    {
+        gracePeriodVisualIndicator.enabled = true;
+        this.gameObject.GetComponent<MeshRenderer>().enabled = true;
     }
 
     [ClientRpc]

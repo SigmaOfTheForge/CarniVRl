@@ -9,7 +9,9 @@ public class GameTimer : NetworkBehaviour
     //Maybe let people choose between time options.
     [SerializeField]
     float timer = 20f;
-    public TextMeshProUGUI timerText;
+
+    [SerializeField]
+    private TextMeshProUGUI[] timerText;
     private enum gameTimerState {Begin, Ongoing, End};
 
     private gameTimerState gameState;
@@ -53,20 +55,36 @@ public class GameTimer : NetworkBehaviour
     {
         beginCountdown -= Time.deltaTime;
         int simplifiedCount = Mathf.CeilToInt(beginCountdown);
-
+        string updatedText;
         switch (simplifiedCount) 
         {
             case 3:
-                timerText.text = "3";
+                updatedText = "3";
+                foreach(TextMeshProUGUI i in timerText)
+                {
+                    i.text = updatedText;
+                }
                 break;
             case 2:
-                timerText.text = "2";
+                updatedText = "2";
+                foreach (TextMeshProUGUI i in timerText)
+                {
+                    i.text = updatedText;
+                }
                 break;
             case 1:
-                timerText.text = "1";
+                updatedText = "1";
+                foreach (TextMeshProUGUI i in timerText)
+                {
+                    i.text = updatedText;
+                }
                 break;
             case 0:
-                timerText.text = "Go";
+                updatedText = "Go";
+                foreach (TextMeshProUGUI i in timerText)
+                {
+                    i.text = updatedText;
+                }
                 break;
             case -1:
                 gameState = gameTimerState.Ongoing;
@@ -94,7 +112,12 @@ public class GameTimer : NetworkBehaviour
 
         if (timerText != null )
         {
-            timerText.text = seconds.ToString();
+            string updatedText = seconds.ToString();
+
+            foreach (TextMeshProUGUI boardText in timerText)
+            {
+                boardText.text = updatedText;
+            }
         }
     }
 
@@ -110,10 +133,22 @@ public class GameTimer : NetworkBehaviour
 
     private IEnumerator GameEndedCoroutine()
     {
-        timerText.text = "Game Over";
+        string updatedText;
+
+        updatedText = "Game Over";
+
+        foreach (TextMeshProUGUI i in timerText)
+        {
+            i.text = updatedText;
+        }
 
         yield return new WaitForSeconds(5);
-        timerText.text = "GOODBYE";
+        updatedText = "GOODBYE";
+
+        foreach (TextMeshProUGUI i in timerText)
+        {
+            i.text = updatedText;
+        }
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ChangeScene("Lobby", 0);
     }
 }

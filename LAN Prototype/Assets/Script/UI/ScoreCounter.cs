@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.UI;
+using Unity.Netcode;
 
 public class ScoreCounter : MonoBehaviour
 {
@@ -18,13 +19,13 @@ public class ScoreCounter : MonoBehaviour
     private void Awake()
     {
         //subscribes UpdateScore to the OnScoreChanged event in the score manager
-        if (GameScoreManager.Instance != null) GameScoreManager.Instance.OnScoreChanged += UpdateScore;
+        GameScoreManager.Instance.OnScoreChanged += UpdateScore;
     }
 
     private void Start()
     {
-        vRScore = 0;
-        mobileScore = 0;
+        vRScore = 5;
+        mobileScore = 72;
         for (int i = 0; i < vRScoreText.Count; i++)
         {
             vRScoreText[i].text = vRScore.ToString();
@@ -35,10 +36,23 @@ public class ScoreCounter : MonoBehaviour
         }
     }
 
-    
-    //Function subscribed to event on ScoreManager, whenever the score is altered it will update the scores
     void UpdateScore(object sender, System.EventArgs e)
     {
+        Debug.Log("ScoreUpdateCalled");
+        CallScoreUpdateServerRpc();
+    }
+
+    [ServerRpc]
+    void CallScoreUpdateServerRpc()
+    {
+        UpdateScoreClientRpc();
+    }
+
+    //Function subscribed to event on ScoreManager, whenever the score is altered it will update the scores
+    [ClientRpc]
+    void UpdateScoreClientRpc()
+    {
+        Debug.Log("Score Updated");
         vRScore = GameScoreManager.Instance.GetVRScore();
         mobileScore = GameScoreManager.Instance.GetMobileScore();
 

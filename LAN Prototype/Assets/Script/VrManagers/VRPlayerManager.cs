@@ -69,6 +69,7 @@ public class VRPlayerManager : NetworkBehaviour
 
         Instantiate(cDisconManager, gameObject.transform);
 
+        //Set up the menu object to use the buttons and hide from view until button is pressed
         menuObject = Instantiate(menuUI, gameObject.transform);
         menuObject.GetComponentInChildren<Button>().onClick.AddListener(CloseLobbyButton);
         menuObject.SetActive(false);
@@ -78,6 +79,7 @@ public class VRPlayerManager : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        //when the player presses the menu button, toggle the menu state and move it to the players's current transform
         if (vrMenuInput.actions["MenuButton"].WasPressedThisFrame())
         {
             menuObject.SetActive(!menuObject.activeSelf);

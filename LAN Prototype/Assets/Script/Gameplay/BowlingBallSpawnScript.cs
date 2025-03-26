@@ -6,13 +6,14 @@ using Unity.Netcode;
 public class BowlingBallSpawnScript : NetworkBehaviour
 {
     //NetworkObject bowlingBall;
-
+    [SerializeField]
+    private BallPit bp;
     // Update is called once per frame
     void Update()
     {
         if (Application.platform == RuntimePlatform.Android) return;
  
-        NetworkObject bowlingBall = BallPit.SharedInstance.GetPooledObject();
+        NetworkObject bowlingBall = bp.GetPooledObject();
 
         if (bowlingBall != null)
         {

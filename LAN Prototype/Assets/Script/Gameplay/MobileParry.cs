@@ -21,17 +21,19 @@ public class MobileParry : NetworkBehaviour
     private void Start()
     {
         if (!IsOwner) return;
-
-        parryShieldObj.SetActive(false);
+        //Deactivate shield visibility and find VR Player in the scene
+        ToggleShieldDeactiveClientRpc();
         vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
     }
 
+    //When the player presses the shield icon 
     public void OnShield(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-
+        //if there is no VR Player in the scene when Start() is called due to scene loading synchronisation
         if (!vrPlayer)
         {
+            //find the VR Player in the scene
             vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
 
         }
@@ -40,15 +42,13 @@ public class MobileParry : NetworkBehaviour
         {
             Debug.Log("Shield up");
             StartParryWindow();
-            parryShieldObj.SetActive(true);
-
+            
             isParryButtonPressed = true;
         }
         if (context.canceled)
         {
             Debug.Log("Shield down");
             ResetParryWindow();
-            parryShieldObj.SetActive(false);
 
             isParryButtonPressed = false;
         }
@@ -58,6 +58,7 @@ public class MobileParry : NetworkBehaviour
     {
 
         Debug.Log("Parry button pressed!");
+        ToggleShieldActiveClientRpc();
         if (parryAttackWindow != null)
         {
             StopCoroutine(parryAttackWindow);
@@ -77,6 +78,8 @@ public class MobileParry : NetworkBehaviour
     private void ResetParryWindow()
     {
         Debug.Log("Parry button released!");
+        ToggleShieldDeactiveClientRpc();
+
         if (parryAttackWindow != null)
         {
             StopCoroutine(parryAttackWindow);
@@ -115,29 +118,14 @@ public class MobileParry : NetworkBehaviour
         }
     }
 
-    void Update()
-    {
-        /*
-        if (Input.GetKeyDown("e")) //get mobile button
-        {
-            StartParryWindow();
-            isParryButtonPressed = true;
-        }
-        if (Input.GetKeyUp("e")) //get mobile button
-        {
-            ResetParryWindow();
-            isParryButtonPressed = false;
-        }
-        */
-        
-    }
+
     
     void OnCollisionEnter(Collision other)
     {
         if (!IsOwner) return;
 
 
-        if (other.gameObject.tag == "CannonBall")
+        if (other.gameObject.tag == "Ball")
         {
             Rigidbody brb = other.gameObject.GetComponent<Rigidbody>();
             
@@ -169,4 +157,23 @@ public class MobileParry : NetworkBehaviour
             confetti.gameObject.SetActive(false);
         }
     }
+
+    [ClientRpc]
+    private void ToggleShieldDeactiveClientRpc()
+    {
+        Debug.Log("Activate Shield");
+        this.transform.GetChild(2).GetComponent<MeshRenderer>().enabled = false;
+        parryShieldObj.SetActive(false);
+    }
+
+    [ClientRpc]
+    private void ToggleShieldActiveClientRpc()
+    {
+        Debug.Log("Deactivate Shield");
+        this.transform.GetChild(2).GetComponent<MeshRenderer>().enabled = true;
+        parryShieldObj.SetActive(true);
+    }
+
+
+
 }
