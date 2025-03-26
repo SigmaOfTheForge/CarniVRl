@@ -4425,6 +4425,7 @@ GameObject:
   - component: {fileID: 1531166845}
   - component: {fileID: 1531166846}
   - component: {fileID: 1531166848}
+  - component: {fileID: 1531166849}
   m_Layer: 0
   m_Name: Ball Spawn
   m_TagString: Untagged
@@ -4500,6 +4501,21 @@ MonoBehaviour:
   pooledObjects: []
   objectToPool: {fileID: -3040858844259619385, guid: 4675ae0f06a35e541a0324b22b0b7e9f, type: 3}
   amountToPool: 5
+--- !u!114 &1531166849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531166844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a00dbabea6e7940a1b2fd3bb1ade1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledObjects: []
+  objectToPool: {fileID: -3563702712127064265, guid: 802d47068fc403d40b07bd8d708f10f7, type: 3}
+  amountToPool: 3
 --- !u!1001 &1559172903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4722,6 +4738,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1636092126}
   - component: {fileID: 1636092125}
+  - component: {fileID: 1636092127}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -4806,6 +4823,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1636092127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636092124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1677930556
 GameObject:
   m_ObjectHideFlags: 0
