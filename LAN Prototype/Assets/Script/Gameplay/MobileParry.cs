@@ -194,7 +194,7 @@ public class MobileParry : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void CallToggleServerRpc()
+    private void CallToggleServerRpc()//Call on server first as clients cannot call a ClientRPC
     {
         ToggleShieldClientRpc();
     }
@@ -202,10 +202,9 @@ public class MobileParry : NetworkBehaviour
 
 
     [ClientRpc]
-    private void ToggleShieldClientRpc()
+    private void ToggleShieldClientRpc() //Synchronise all clients with the shield object
     {
-        //Debug.Log("Activate Shield");
-        //this.transform.GetChild(2).GetComponent<MeshRenderer>().enabled = !this.transform.GetChild(2).GetComponent<MeshRenderer>().enabled;
+       
         parryShieldObj.SetActive(!parryShieldObj.activeSelf);
     }
 

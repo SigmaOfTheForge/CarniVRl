@@ -310,13 +310,10 @@ public class TestLobby : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.Android)
         {
-           // joinButton = GameObject.FindGameObjectWithTag("Button_Join").GetComponent<Button>();
+           
             qJoinButton = GameObject.FindGameObjectWithTag("Button_QJ").GetComponent<Button>();
             listButton = GameObject.FindGameObjectWithTag("Button_ListLob").GetComponent<Button>();
-            //lobbyCodeText = GameObject.FindGameObjectWithTag("UIInput_Code").GetComponent<TextMeshProUGUI>();
-            //playerNameText = GameObject.FindGameObjectWithTag("UIInput_Name").GetComponent<TextMeshProUGUI>();
-
-           // joinButton.onClick.AddListener(() => JoinLobby(lobbyCodeText.text));
+            
             listButton.onClick.AddListener(() => ListLobbies());
             qJoinButton.onClick.AddListener(() => QuickJoinLobby());
         }
@@ -324,7 +321,7 @@ public class TestLobby : MonoBehaviour
         {
            createButton = GameObject.FindGameObjectWithTag("Button_Create").GetComponent<Button>();
            listButton = GameObject.FindGameObjectWithTag("Button_ListLob").GetComponent<Button>();
-           //playerNameText = GameObject.FindGameObjectWithTag("UIInput_Name").GetComponent<TextMeshProUGUI>();
+           
 
             listButton.onClick.AddListener(() => ListLobbies());
             createButton.onClick.AddListener(() => CreateLobby());
