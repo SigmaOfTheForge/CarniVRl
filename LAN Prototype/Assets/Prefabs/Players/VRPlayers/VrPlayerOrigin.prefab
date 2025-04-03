@@ -779,7 +779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 338018668
+  GlobalObjectIdHash: 1576860934
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1963,6 +1963,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1067810411700493580}
     m_Modifications:
+    - target: {fileID: 664489801923019586, guid: 2fd3e07afe5b461490fb8e314976b1b0, type: 3}
+      propertyPath: m_PhysicsLayerMask.m_Bits
+      value: 129
+      objectReference: {fileID: 0}
+    - target: {fileID: 664489801923019586, guid: 2fd3e07afe5b461490fb8e314976b1b0, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 129
+      objectReference: {fileID: 0}
     - target: {fileID: 6189354538098044173, guid: 2fd3e07afe5b461490fb8e314976b1b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2025,6 +2033,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6524853084543016613}
     m_Modifications:
+    - target: {fileID: 664489801923019586, guid: 2fd3e07afe5b461490fb8e314976b1b0, type: 3}
+      propertyPath: m_PhysicsLayerMask.m_Bits
+      value: 129
+      objectReference: {fileID: 0}
+    - target: {fileID: 664489801923019586, guid: 2fd3e07afe5b461490fb8e314976b1b0, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 129
+      objectReference: {fileID: 0}
     - target: {fileID: 6189354538098044173, guid: 2fd3e07afe5b461490fb8e314976b1b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.001
