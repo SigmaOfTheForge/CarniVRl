@@ -22,6 +22,7 @@ TagManager:
   - Ball
   - NetworkManager
   - Mobile_Player
+  - Ramp
   layers:
   - Default
   - TransparentFX
