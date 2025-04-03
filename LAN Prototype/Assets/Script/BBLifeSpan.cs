@@ -18,6 +18,8 @@ public class BBLifeSpan : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(!IsServer) return;
+
         if (collision.gameObject.tag == "Ramp")
         {
             StartCoroutine(LifeCountdown());
@@ -32,11 +34,11 @@ public class BBLifeSpan : NetworkBehaviour
             lifeTime -= 1f;
         }
 
-        DeactivateObjectServerRpc();
+        DeactivateObjectClientRpc();
     }
 
-    [ServerRpc]
-    void DeactivateObjectServerRpc()
+    [ClientRpc]
+    void DeactivateObjectClientRpc()
     {
         gameObject.SetActive(false);
     }

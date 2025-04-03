@@ -20,7 +20,7 @@ public class MobileGracePeriod : NetworkBehaviour
 
     public void StartGrace()
     {
-        
+        //make the player briefly invincible to balls after respawning
         Debug.Log("Enabled");
        ChangeLayerClientRpc();
         ToggleVisibilityActiveClientRpc();
@@ -29,13 +29,9 @@ public class MobileGracePeriod : NetworkBehaviour
 
     private IEnumerator GraceCountdown()
     {
-        Debug.Log("Coroutine Started");
-        yield return new WaitForSeconds(2);
-        Debug.Log("Time Elapsed, deactivating protections");
+        yield return new WaitForSeconds(2);  
         ChangeLayerClientRpc();
         ToggleVisibilityDeactiveClientRpc();
-        //gameObject.SendMessage("ToggleMove");
-       
     }
 
     [ClientRpc]

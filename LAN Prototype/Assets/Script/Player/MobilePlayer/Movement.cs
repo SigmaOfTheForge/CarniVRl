@@ -32,10 +32,9 @@ public class Movement : NetworkBehaviour
     {
         plInput = GetComponent<PlayerInput>();
 
-        Debug.Log("Owner of MobilePlayer Movement is: " + OwnerClientId);
-
         if (IsOwner)
         {
+            //instantiating UI and Camera locally so that only this player has access to them
             if (GameObject.FindGameObjectWithTag("UI_Player") == null)
             {
                 Instantiate(playerUI);
@@ -63,7 +62,7 @@ public class Movement : NetworkBehaviour
         Move();
     }
 
-    void CameraCheck()
+    void CameraCheck() //ensures the main camera always remains the player's camera to avoid issues when other players join
     {
         if(!IsOwner) return;
 
@@ -77,7 +76,7 @@ public class Movement : NetworkBehaviour
     }
 
 
-    void Move()
+    void Move() //move the player based on screen joystick input
     {
         if (!IsOwner || !canMove.Value) return;
 

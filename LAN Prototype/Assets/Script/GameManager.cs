@@ -63,9 +63,7 @@ public class GameManager : NetworkBehaviour
         if (status != SceneEventProgressStatus.Started)
         {
             Debug.LogWarning("Failed to load " + sceneName + ", with a " + nameof(SceneEventProgressStatus) + ": " + status);
-
-        }
-       
+        }     
     }
 
 
