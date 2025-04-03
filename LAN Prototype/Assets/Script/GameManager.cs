@@ -21,23 +21,6 @@ public class GameManager : NetworkBehaviour
         DontDestroyOnLoad(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //temporary inputs for starting levels
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            
-            ChangeSceneServerRpc("SceneTransitionTest", 1);
-        }
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            
-            ChangeSceneServerRpc("Lobby", 0);
-        }
-
-    }
-
 
 
     //public scenechange so that anything can call the function from outside the GameManager
