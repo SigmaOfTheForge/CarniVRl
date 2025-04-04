@@ -22,10 +22,7 @@ public class TestLobby : MonoBehaviour
     [SerializeField]
     private NetworkObject GameManager;
 
-    //[SerializeField]
     private TextMeshProUGUI lobbyCodeText, playerNameText;
-
-    //[SerializeField]
     private Button joinButton, createButton, listButton, qJoinButton;
 
     private string playerNameString, lobbyIPName, lobbyID;
@@ -41,46 +38,32 @@ public class TestLobby : MonoBehaviour
 
         SceneManager.sceneLoaded += CheckIfDuplicate;
         
-
+        //connects to Unity services to access lobby
         await UnityServices.InitializeAsync();
 
         string name =  System.Net.Dns.GetHostName();
-        IPAddress[] addr = System.Net.Dns.GetHostAddresses(name);
-
+        IPAddress[] addr = System.Net.Dns.GetHostAddresses(name)
+            ;
+        //finds the IPV4 adress and sets that to the lobby name to connect 
         foreach (IPAddress addrAddr in addr)
         {
             Debug.Log(addrAddr.ToString());
             if(addrAddr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
             {
                 lobbyIPName = addrAddr.ToString();
-                Debug.Log("Lobby name is: " + lobbyIPName);
             }
         }
-
-             
-
-
-        
-       
-
-
-
-        AuthenticationService.Instance.SignedIn += () =>
-        {
-            Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
-        };
-
+        //Signs in the player without the need for credentials
         if (!AuthenticationService.Instance.IsSignedIn)
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
 
-       
-
         FindButtons();
 
     }
 
+    //checks if theres already a lobbyManager in the scene, used when disconnecting and moving back to the lobby
     void CheckIfDuplicate( Scene sceneName, LoadSceneMode loadSceneMode)
     {
         if(SceneManager.GetSceneByBuildIndex(0) ==  SceneManager.GetActiveScene())
@@ -94,13 +77,9 @@ public class TestLobby : MonoBehaviour
     private void Update()
     {
         HandleHeartBeat();
-
-        if(Input.GetKeyDown(KeyCode.C) && !isHosting)
-        {
-            CreateLobby();
-        }
     }
 
+    //disconnects the select player from the lobby and signs them out of the lobby
     public async void DisconnectPlayer(string playerID)
     {
         try
@@ -114,6 +93,7 @@ public class TestLobby : MonoBehaviour
         }
     }
 
+    //Disconnects the host, deletes the lobby and signs out the player
     public async void CloseLobby(string playerID)
     {
         try
@@ -145,12 +125,13 @@ public class TestLobby : MonoBehaviour
         }
     }
 
+    //Creates a lobby with the host's IPv4 Adress as the lobby name
     private async void CreateLobby()
     {
         //prevents double-clicks of lobby button and prevents 2 lobbies from the same computer appearing 
         if (isHosting) return;
 
-        playerNameString = "Sigma[" + Random.Range(1,99) + "]" ;
+        playerNameString = "Player[" + Random.Range(1,99) + "]" ;
         try
         {
             isHosting = true;
@@ -185,7 +166,7 @@ public class TestLobby : MonoBehaviour
 
             NetworkManager.Singleton.StartHost();
             
-
+            //removes all the starter  objects and spawns the needed gameObjects
             Destroy(GameObject.FindGameObjectWithTag("UI_Start"));
             Destroy(GameObject.FindGameObjectWithTag("MainCamera"));
             Destroy(GameObject.FindGameObjectWithTag("VR_Player_Start"));
@@ -201,7 +182,7 @@ public class TestLobby : MonoBehaviour
 
             Instantiate(waitingRoomUI);
 
-        //NetworkManager.Singleton.SceneManager.OnLoadComplete += CheckIfDuplicate;
+       
         }
         catch (LobbyServiceException e)
         {
@@ -212,48 +193,13 @@ public class TestLobby : MonoBehaviour
       
 
     }
-
-    private void ListLobbies()
+    //closes the game
+    private void QuitGame()
     {
        Application.Quit();
     }
-    //join lobby by code
-    private async void JoinLobby(string code)
-    {
-        code = code.Substring(0, 6);
-        //SceneManager.LoadScene("Lobby");
-        try
-        {
-            JoinLobbyByCodeOptions joinLobbyByCodeOptions = new JoinLobbyByCodeOptions
-            {
-                Player = GetPlayer()
-            };
 
-            joinedLobby = await Lobbies.Instance.JoinLobbyByCodeAsync(code, joinLobbyByCodeOptions);
-            Debug.Log("Joined Lobby: " + hostLobby.Name + "With Code: " + code);
-
-            PrintPlayers(joinedLobby);
-            ushort port = 7777;
-            lobbyIPName = joinedLobby.Name;
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(lobbyIPName, port);
-
-            Debug.Log(NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address);
-
-            NetworkManager.Singleton.StartClient();
-
-            Destroy(GameObject.FindGameObjectWithTag("UI_Start"));
-            Destroy(GameObject.FindGameObjectWithTag("VR_Player_Start"));
-
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ChangeScene("Lobby", 1);
-
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.LogError(e);
-        }
-        //await Lobbies.Instance.JoinLobbyByIdAsync();
-    }
-
+    
     private Player GetPlayer()
     {
         return new Player
@@ -264,7 +210,7 @@ public class TestLobby : MonoBehaviour
         };
     }
 
-    //quickjoin an open lobby
+    //quickjoin an open lobby based on IPv4 Adresses
     private async void QuickJoinLobby()
     {
         //SceneManager.LoadScene("Lobby");
@@ -306,6 +252,7 @@ public class TestLobby : MonoBehaviour
         }
     }
 
+    //find the buttons in the level at the start of the game
     private void FindButtons()
     {
         if (Application.platform == RuntimePlatform.Android)
@@ -314,7 +261,7 @@ public class TestLobby : MonoBehaviour
             qJoinButton = GameObject.FindGameObjectWithTag("Button_QJ").GetComponent<Button>();
             listButton = GameObject.FindGameObjectWithTag("Button_ListLob").GetComponent<Button>();
             
-            listButton.onClick.AddListener(() => ListLobbies());
+            listButton.onClick.AddListener(() => QuitGame());
             qJoinButton.onClick.AddListener(() => QuickJoinLobby());
         }
         else if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
@@ -323,7 +270,7 @@ public class TestLobby : MonoBehaviour
            listButton = GameObject.FindGameObjectWithTag("Button_ListLob").GetComponent<Button>();
            
 
-            listButton.onClick.AddListener(() => ListLobbies());
+            listButton.onClick.AddListener(() => QuitGame());
             createButton.onClick.AddListener(() => CreateLobby());
 
         }

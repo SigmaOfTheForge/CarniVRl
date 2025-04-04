@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System;
 
-
+//Global instance that controls and synchronises game scores across levels
 public class GameScoreManager : NetworkBehaviour
 {
     public static GameScoreManager Instance;
@@ -21,7 +21,7 @@ public class GameScoreManager : NetworkBehaviour
     }
 
     public int GetVRScore()
-    {
+    { 
         return vrPlayerScore.Value;
     }
 
@@ -34,7 +34,6 @@ public class GameScoreManager : NetworkBehaviour
 
     public void AddVRScore(int score)
     {
-        Debug.Log("Score Manager/ VR Score added:  " +  score);
         EventArgs e = new EventArgs();
         OnScoreChanged.Invoke(this, e);
         vrPlayerScore.Value += score;
@@ -55,7 +54,6 @@ public class GameScoreManager : NetworkBehaviour
 
     public void AddMobileScore(int score)
     {
-        Debug.Log("Score Manager/ M Score added:  " + score);
         EventArgs e = new EventArgs();
         OnScoreChanged.Invoke(this, e);
         mobilePlayerScore.Value += score;

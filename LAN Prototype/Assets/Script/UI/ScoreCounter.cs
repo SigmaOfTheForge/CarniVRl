@@ -51,7 +51,7 @@ public class ScoreCounter : NetworkBehaviour
     [ServerRpc]
     void CallScoreUpdateServerRpc()
     {
-        Debug.Log("Score Update Server RPC Called");
+        
         UpdateScoreClientRpc();
     }
 
@@ -59,7 +59,7 @@ public class ScoreCounter : NetworkBehaviour
     [ClientRpc]
     void UpdateScoreClientRpc()
     {
-        Debug.Log("Score Update Client RPC Called on client");
+        //update every scoreboard connected to the scoreCounter
         vRScore = GameScoreManager.Instance.GetVRScore();
         mobileScore = GameScoreManager.Instance.GetMobileScore();
 

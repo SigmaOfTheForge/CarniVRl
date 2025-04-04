@@ -48,8 +48,6 @@ public class MobileParry : NetworkBehaviour
             isParryButtonPressed = true;
             Debug.Log("Shield up");
             StartParryWindow();
-
-            
         }
         //Checks if the button assigned to "Shield" is let go
         else if (!parryAction.actions["Shield"].IsPressed() && isParryButtonPressed)
@@ -57,8 +55,6 @@ public class MobileParry : NetworkBehaviour
             isParryButtonPressed = false;
             Debug.Log("Shield down");
             ResetParryWindow();
-            //CallToggleServerRpc();
-            
         }
     }
 
@@ -74,29 +70,11 @@ public class MobileParry : NetworkBehaviour
             vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
 
         }
-
-        //if (context.started)
-        //{
-        //    Debug.Log("Shield up");
-        //    StartParryWindow();
-            
-        //    isParryButtonPressed = true;
-        //}
-        //else if (context.canceled)
-        //{
-        //    Debug.Log("Shield down");
-        //    ResetParryWindow();
-
-        //    isParryButtonPressed = false;
-        //}
     }
 
-    //calls when shield button is pressed 
+    //calls when shield button is pressed which begins the parry
     private void StartParryWindow()
     {
-
-        //Debug.Log("Parry button pressed!");
-
         if (parryAttackWindow != null)
         {
             StopCoroutine(parryAttackWindow);
@@ -114,7 +92,7 @@ public class MobileParry : NetworkBehaviour
         yield return new WaitForSeconds(parryWindow);
         ResetParryWindow(); //resets the parry window after the time is up
     }
-
+    //End the parry
     private void ResetParryWindow()
     {
         //Debug.Log("Parry button released!");
@@ -128,11 +106,11 @@ public class MobileParry : NetworkBehaviour
 
         }
         isParryEnabled = false;
-        isParryWindowActive = false;
         
 
     }
 
+    //what to do when a bowling ball hits the player
     private void HandleAttack(bool canParry, bool canBlock, GameObject ball, Rigidbody brb)
     {
         if (!IsOwner) return;
@@ -140,20 +118,23 @@ public class MobileParry : NetworkBehaviour
 
         if (isParryEnabled && canParry) //happens when player released the shield button within the parry window
         {
+            //send the ball back to the VR_Player when parrying the ball
             Debug.Log("Parried");
             vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
             ball.transform.LookAt(vrPlayer);
             brb.useGravity = false;
-            brb.velocity = ball.transform.forward * 50; 
+            brb.velocity = ball.transform.forward * 50;
         }
         else if (canBlock) //happens when the player holds the shield button down and just blocks
         {
+            //when the player blocks, send them back a small amount
             Debug.Log("Block Performed");
             rb.velocity = new Vector3((force/4), 0f, 0f) + rb.velocity;
         }
         else //no parry and no block so player is launched
         {
-            ball.SetActive(false);
+            //when the player is hit, deactivate the ball, spawn particles and send the player flying
+            DeactivateNetworkObjectServerRpc(ball);
             StartCoroutine(ConfettiSpawn(ball.transform.position));
             rb.velocity = new Vector3(force, 0f, 0f) + rb.velocity;
         }
@@ -165,7 +146,7 @@ public class MobileParry : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-
+        //if the player was hit by a ball
         if (other.gameObject.tag == "Ball")
         {
             Rigidbody brb = other.gameObject.GetComponent<Rigidbody>();
@@ -191,11 +172,11 @@ public class MobileParry : NetworkBehaviour
         {
             confetti.transform.position = position;
             //effect would be played as it is set active
-            confetti.gameObject.SetActive(true);
+            ActivateNetworkObjectServerRpc(confetti);
             //one second would be enough as the effect happens on impact
             yield return new WaitForSeconds(1);
             //set active to false so that gameobject can be called again
-            confetti.gameObject.SetActive(false);
+            DeactivateNetworkObjectClientRpc(confetti);
         }
     }
 
@@ -213,6 +194,43 @@ public class MobileParry : NetworkBehaviour
        
         parryShieldObj.SetActive(!parryShieldObj.activeSelf);
     }
+
+    //call to every client from the server to deactivate a network object
+    [ServerRpc]
+    private void DeactivateNetworkObjectServerRpc(NetworkObjectReference obj)
+    {
+        DeactivateNetworkObjectClientRpc(obj);
+    }
+
+    //call to every client to deactivate a network object
+    [ClientRpc]
+    private void DeactivateNetworkObjectClientRpc(NetworkObjectReference obj)
+    {
+        NetworkObject objToDeac;
+
+        obj.TryGet(out  objToDeac);
+
+        objToDeac.gameObject.SetActive(false);
+    }
+
+    //call to every client from the server to activate a network object
+    [ServerRpc]
+    private void ActivateNetworkObjectServerRpc(NetworkObjectReference obj)
+    {
+        ActivateNetworkObjectClientRpc(obj);
+    }
+
+    //call to every client to activate a network object
+    [ClientRpc]
+    private void ActivateNetworkObjectClientRpc(NetworkObjectReference obj)
+    {
+        NetworkObject objToDeac;
+
+        obj.TryGet(out objToDeac);
+
+        objToDeac.gameObject.SetActive(false);
+    }
+
 
 
 
