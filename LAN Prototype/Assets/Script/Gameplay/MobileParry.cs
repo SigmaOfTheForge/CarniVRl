@@ -7,10 +7,10 @@ using System;
 
 public class MobileParry : NetworkBehaviour
 {
-    private IEnumerator parryAttackWindow;
-    private bool isParryEnabled = false;
-    private bool isParryWindowActive = false;
-    [SerializeField] private float parryWindow;
+    private IEnumerator parryAttackWindow; //IEnumerator for parryAttackWindow so that it can be null checked
+    private bool isParryEnabled = false; //checks if parry is enabled
+    private bool isParryWindowActive = false; //checks if the parry window is active
+    [SerializeField] private float parryWindow; //how long the player has to parry
     [SerializeField] private GameObject parryShieldObj;
 
     Rigidbody rb;
@@ -19,7 +19,7 @@ public class MobileParry : NetworkBehaviour
     [SerializeField] private PlayerInput parryAction;
     
     [SerializeField] Transform vrPlayer;
-    bool isParryButtonPressed;
+    bool isParryButtonPressed; //checks if the button binded to the shield is pressed;
 
     [SerializeField] private PlayerInput parryControls;
 
@@ -32,6 +32,8 @@ public class MobileParry : NetworkBehaviour
         //Deactivate shield visibility and find VR Player in the scene
         CallToggleServerRpc();
         vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
+
+        //gets the action mappings
         parryAction = gameObject.GetComponent<PlayerInput>();
       
     }
@@ -40,6 +42,7 @@ public class MobileParry : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        //Checks if the button assigned to "Sheild" is pressed down
         if (parryAction.actions["Shield"].IsPressed() && !isParryButtonPressed)
         {
             isParryButtonPressed = true;
@@ -48,6 +51,7 @@ public class MobileParry : NetworkBehaviour
 
             
         }
+        //Checks if the button assigned to "Shield" is let go
         else if (!parryAction.actions["Shield"].IsPressed() && isParryButtonPressed)
         {
             isParryButtonPressed = false;
@@ -87,6 +91,7 @@ public class MobileParry : NetworkBehaviour
         //}
     }
 
+    //calls when shield button is pressed 
     private void StartParryWindow()
     {
 
@@ -100,20 +105,21 @@ public class MobileParry : NetworkBehaviour
         StartCoroutine(parryAttackWindow);
     }
 
+    //IEnumerator used so that WaitForSeconds can be utilised for timing
     private IEnumerator ParryWindowCoroutine()
     {
         CallToggleServerRpc();
-        isParryEnabled = true;
+        isParryEnabled = true; //is only true for the duration of the parry window
         isParryWindowActive = true;
         yield return new WaitForSeconds(parryWindow);
-        ResetParryWindow();
+        ResetParryWindow(); //resets the parry window after the time is up
     }
 
     private void ResetParryWindow()
     {
         //Debug.Log("Parry button released!");
 
-
+        //makes sure any parry window on this player is stopped
         if (parryAttackWindow != null)
         {
             StopCoroutine(parryAttackWindow);
@@ -132,20 +138,20 @@ public class MobileParry : NetworkBehaviour
         if (!IsOwner) return;
 
 
-        if (isParryEnabled && canParry)
+        if (isParryEnabled && canParry) //happens when player released the shield button within the parry window
         {
             Debug.Log("Parried");
             vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
             ball.transform.LookAt(vrPlayer);
             brb.useGravity = false;
-            brb.velocity = ball.transform.forward * 50; //make force depend on distance as well //naw that was a bad idea
+            brb.velocity = ball.transform.forward * 50; 
         }
-        else if (canBlock)
+        else if (canBlock) //happens when the player holds the shield button down and just blocks
         {
             Debug.Log("Block Performed");
             rb.velocity = new Vector3((force/4), 0f, 0f) + rb.velocity;
         }
-        else
+        else //no parry and no block so player is launched
         {
             ball.SetActive(false);
             StartCoroutine(ConfettiSpawn(ball.transform.position));

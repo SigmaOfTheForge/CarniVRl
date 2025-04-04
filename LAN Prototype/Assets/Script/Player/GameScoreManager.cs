@@ -18,13 +18,10 @@ public class GameScoreManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;   
-
-
     }
 
     public int GetVRScore()
     {
-        
         return vrPlayerScore.Value;
     }
 

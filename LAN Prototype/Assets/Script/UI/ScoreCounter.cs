@@ -11,6 +11,9 @@ public class ScoreCounter : NetworkBehaviour
     
     public int vRScore;
     public int mobileScore;
+    //is a list so multiple TextMeshProUGUI can be set to the same variables
+    //this is so both the VR and mobile players can see the scores while 
+    //looking at different directions
     public List<TextMeshProUGUI> vRScoreText;
     public List<TextMeshProUGUI> mobileScoreText;
 
@@ -73,10 +76,5 @@ public class ScoreCounter : NetworkBehaviour
         }
 
         Debug.Log("Score Updated on this client");
-
-
-
     }
-
-
 }

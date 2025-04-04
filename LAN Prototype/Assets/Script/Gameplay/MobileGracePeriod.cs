@@ -10,23 +10,21 @@ public class MobileGracePeriod : NetworkBehaviour
 
     private void Start()
     {
-        
-
-
         capsuleCollider = this.gameObject.GetComponent<CapsuleCollider>();
         gracePeriodVisualIndicator = this.gameObject.GetComponent<MeshRenderer>();
+        //makes sure the grace period indicator is off by default
         gracePeriodVisualIndicator.enabled = false;
     }
 
     public void StartGrace()
-    {
-        
+    {       
         Debug.Log("Enabled");
-       ChangeLayerClientRpc();
+        ChangeLayerClientRpc();
         ToggleVisibilityActiveClientRpc();
         StartCoroutine(GraceCountdown());
     }
 
+    //the amount of time that the grace period is up for
     private IEnumerator GraceCountdown()
     {
         Debug.Log("Coroutine Started");
@@ -34,8 +32,7 @@ public class MobileGracePeriod : NetworkBehaviour
         Debug.Log("Time Elapsed, deactivating protections");
         ChangeLayerClientRpc();
         ToggleVisibilityDeactiveClientRpc();
-        //gameObject.SendMessage("ToggleMove");
-       
+        //gameObject.SendMessage("ToggleMove");       
     }
 
     [ClientRpc]
@@ -43,7 +40,6 @@ public class MobileGracePeriod : NetworkBehaviour
     {
         gracePeriodVisualIndicator.enabled = false;
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-
     }
 
     [ClientRpc]
@@ -53,7 +49,10 @@ public class MobileGracePeriod : NetworkBehaviour
         this.gameObject.GetComponent<MeshRenderer>().enabled = true;
     }
 
-    [ClientRpc]
+    //makes sure that the player is immune to bowling balls 
+    //during the grace period and is set back to not immune 
+    //when the grace period ends
+    [ClientRpc] 
     private void ChangeLayerClientRpc()
     {
         if(gameObject.layer == LayerMask.NameToLayer("Default"))
@@ -67,5 +66,4 @@ public class MobileGracePeriod : NetworkBehaviour
             capsuleCollider.excludeLayers = LayerMask.GetMask("Nothing");
         }
     }
-
 }

@@ -309,6 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parryWindow: 0.2
   parryShieldObj: {fileID: 5817410715390277528}
+  parryAction: {fileID: 0}
   vrPlayer: {fileID: 0}
   parryControls: {fileID: 5413803373099160752}
 --- !u!114 &8604944992510364255
