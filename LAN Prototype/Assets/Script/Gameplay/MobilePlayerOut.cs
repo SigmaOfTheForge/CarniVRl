@@ -14,7 +14,8 @@ public class MobilePlayerOut : NetworkBehaviour
 
         if (other.tag == "Mobile_Player") 
         {
-            //Give the VR-Player a score
+            //Give the VR-Player a score & Play a noise
+            SoundManager.instance.PlaySound(SoundType.ScoreVR);
             GameScoreManager.Instance.AddVRScore(1);
             //Respawn the player
             RespawnPlayerClientRpc(other.GetComponent<NetworkObject>());
