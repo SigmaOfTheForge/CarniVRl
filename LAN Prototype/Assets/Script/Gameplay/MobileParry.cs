@@ -120,10 +120,10 @@ public class MobileParry : NetworkBehaviour
         {
             //send the ball back to the VR_Player when parrying the ball
             Debug.Log("Parried");
-            vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
-            ball.transform.LookAt(vrPlayer);
-            brb.useGravity = false;
-            brb.velocity = ball.transform.forward * 50;
+
+            NetworkObject ballNet = ball.GetComponent<NetworkObject>();
+
+            ParryAttackServerRpc(ballNet);
         }
         else if (canBlock) //happens when the player holds the shield button down and just blocks
         {
@@ -179,6 +179,29 @@ public class MobileParry : NetworkBehaviour
             DeactivateNetworkObjectClientRpc(confetti);
         }
     }
+
+    [ServerRpc]
+    private void ParryAttackServerRpc(NetworkObjectReference ballRef)
+    {
+        ParryAttackClientRpc(ballRef);
+    }
+
+    [ClientRpc]
+    private void ParryAttackClientRpc(NetworkObjectReference ballRef)
+    {
+        NetworkObject ballNet;
+        ballRef.TryGet(out ballNet);
+
+        Rigidbody ballRB = ballNet.GetComponent<Rigidbody>();
+
+        vrPlayer = GameObject.FindGameObjectWithTag("VR_Player_Start").transform;
+        ballNet.transform.LookAt(vrPlayer);
+
+        ballRB.useGravity = false;
+        ballRB.velocity = ballNet.transform.forward * 50;
+
+    }
+
 
     [ServerRpc]
     private void CallToggleServerRpc()//Call on server first as clients cannot call a ClientRPC

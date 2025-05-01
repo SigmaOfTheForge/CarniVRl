@@ -69,6 +69,7 @@ MonoBehaviour:
   mobPlayerType:
   - {fileID: 2925425597298681814, guid: 02c8b2df01846c3458ee73c08cc0d7da, type: 3}
   - {fileID: 2049809271336680723, guid: c77773a0da67f794b9338589d0d9b954, type: 3}
+  - {fileID: 2925425597298681814, guid: 02c8b2df01846c3458ee73c08cc0d7da, type: 3}
   currentMobPlayer: {fileID: 0}
   menuUI: {fileID: 8701480657602522481, guid: 89fbf0af91308274d93de96487799cf8, type: 3}
   clientDisconnectManager: {fileID: 3222166372049405727, guid: bb24204f65cf3ae4788e1124bbb9a94f, type: 3}
