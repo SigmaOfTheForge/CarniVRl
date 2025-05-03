@@ -9,7 +9,6 @@ public class MobileParry : NetworkBehaviour
 {
     private IEnumerator parryAttackWindow; //IEnumerator for parryAttackWindow so that it can be null checked
     private bool isParryEnabled = false; //checks if parry is enabled
-    private bool isParryWindowActive = false; //checks if the parry window is active
     [SerializeField] private float parryWindow; //how long the player has to parry
     [SerializeField] private GameObject parryShieldObj;
 
@@ -88,7 +87,6 @@ public class MobileParry : NetworkBehaviour
     {
         CallToggleServerRpc();
         isParryEnabled = true; //is only true for the duration of the parry window
-        isParryWindowActive = true;
         yield return new WaitForSeconds(parryWindow);
         ResetParryWindow(); //resets the parry window after the time is up
     }
