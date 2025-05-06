@@ -59,8 +59,10 @@ public class HideAndSeekManager : NetworkBehaviour
     private void RespawnPlayerClientRpc(NetworkObjectReference player)
     {
         Debug.Log("Respawning Player");
+        
         NetworkObject playerObject;
         player.TryGet(out playerObject);
+        playerObject.SendMessage("PlayerReset");
 
         int randomNumber = Random.Range(0, spawnPoints.Length);
 
