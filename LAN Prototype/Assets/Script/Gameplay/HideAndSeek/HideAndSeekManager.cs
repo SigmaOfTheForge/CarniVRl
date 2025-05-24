@@ -4,28 +4,93 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
+public enum GameMode
+{
+    Start, Gameplay, End
+}
+
+
 public class HideAndSeekManager : NetworkBehaviour
 {
 
     [SerializeField]
-    private float respawnTimer;
+    private float respawnTimer, timePerPlayer, waitTime, gameDuration;
 
+    private float gameTimer, scoreTimer;
+
+    private GameMode gameMode;
 
     GameObject[] spawnPoints;
 
-
+    public static HideAndSeekManager instance;
 
     //start a game
     private void Start()
     {
+        instance = this;
+
         //get all current spawnpoints, can add as many spawnpoints as needed
         GameObject[] sPoints = GameObject.FindGameObjectsWithTag("Mob_Spawn");
         System.Array.Resize(ref spawnPoints, sPoints.Length);
         spawnPoints = sPoints;
+        if (IsServer)
+        {
+            GameScoreManager.Instance.SetVRScore(0);
+            GameScoreManager.Instance.SetMobileScore(0);
+        }
+
+        gameMode = GameMode.Start;
+        scoreTimer = timePerPlayer * 3;
+        gameTimer = waitTime + timePerPlayer;
+
     }
+
+    private void Update()
+    {
+        if(!IsServer) return;
+
+        gameTimer -= Time.deltaTime;
+
+        switch (gameMode)
+        {
+            case GameMode.Start:
+                if(gameTimer <= 0)
+                {
+                    gameMode = GameMode.Gameplay;
+                    gameTimer = gameDuration;
+                }
+                break;
+            case GameMode.Gameplay:
+                scoreTimer -= Time.deltaTime;
+                if(scoreTimer <= 0)
+                {
+                    scoreTimer = timePerPlayer;
+                    GameScoreManager.Instance.AddMobileScore(1);
+                }
+
+                if(gameTimer <= 0)
+                {
+                    gameMode=GameMode.End;
+                }
+                break;
+            case GameMode.End:
+                if(gameTimer <= 0)
+                {
+                    GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ChangeScene("Lobby", 0);
+                }
+                break;  
+
+        }
+    }
+
+
     //keep score
 
     //manage decoys?
+    public void DecoyCaught()
+    {
+        GameScoreManager.Instance.AddMobileScore(1);
+    }
 
     //Respawn a player when they get caught
 
@@ -35,6 +100,9 @@ public class HideAndSeekManager : NetworkBehaviour
 
         StartCoroutine(RespawnDelay(player));
 
+        scoreTimer += timePerPlayer;
+
+        GameScoreManager.Instance.AddVRScore(1);
     }
 
     //Disconnects the player from the grab and begins respawn on all clients

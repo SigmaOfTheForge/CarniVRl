@@ -28,7 +28,7 @@ public class Movement : NetworkBehaviour
 
     protected PlayerInput plInput;
 
-    void Start()
+    public virtual void Start()
     {
         plInput = GetComponent<PlayerInput>();
 

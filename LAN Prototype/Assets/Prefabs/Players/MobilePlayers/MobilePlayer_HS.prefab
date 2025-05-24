@@ -17,10 +17,10 @@ GameObject:
   - component: {fileID: 8043545810120095455}
   - component: {fileID: 2392361405185984913}
   - component: {fileID: 4533413545877851733}
-  - component: {fileID: 8067969654005860425}
   - component: {fileID: 8422309952639036008}
   - component: {fileID: 402506681403103626}
   - component: {fileID: 744954370197307683}
+  - component: {fileID: 8950773582964448022}
   m_Layer: 0
   m_Name: MobilePlayer_HS
   m_TagString: Untagged
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1414449949
+  GlobalObjectIdHash: 1501603467
   InScenePlacedSourceGlobalObjectIdHash: 1941718089
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -239,23 +239,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &8067969654005860425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5103855782735649997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cad536f8681044149959df5661e4b709, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPrefab: {fileID: 8620388927363088617, guid: 128df9f1d0015b3459a6d62049bf821e, type: 3}
-  cameraSpawnLoc: {fileID: 7125917154961710778}
-  playerUI: {fileID: 3450603946836285303, guid: 1c4d5e6625cac89418e761161ab2a685, type: 3}
-  playerSpeed: 5
-  turnSpeed: 20
 --- !u!114 &8422309952639036008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,6 +427,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8950773582964448022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5103855782735649997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2148ef7616aef4a46a739f22cce19b67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 8620388927363088617, guid: 128df9f1d0015b3459a6d62049bf821e, type: 3}
+  cameraSpawnLoc: {fileID: 7125917154961710778}
+  playerUI: {fileID: 3450603946836285303, guid: 0b820b2f765b20042b688ba4033017e0, type: 3}
+  playerSpeed: 10
+  scoreUI: {fileID: 8883349279773185468, guid: 6777960cdbba5fd459e160d854c6f1ae, type: 3}
+  decoyGameObject: {fileID: 0}
+  turnSpeed: 7
 --- !u!1 &5779360099104867111
 GameObject:
   m_ObjectHideFlags: 0
